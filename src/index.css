@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  font-family: Poppins;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: url('./images//weddingBack.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+    /* color: #d13e56 */
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Poppins;
+  src: url(../public/Poppins-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: DancingScript;
+  src: url(../public/DancingScript-VariableFont_wght.ttf);
+}
+
+@font-face {
+  font-family: Pacifico;
+  src: url(../public/Pacifico-Regular.ttf);
+}
+
+@font-face {
+  font-family: SlacksideOne;
+  src: url(../public/SlacksideOne-Regular.ttf);
+}
+.DancingScript {
+  font-family: DancingScript;
+}
+.Pacifico {
+  font-family: Pacifico;
+}
+.Pacifico {
+  font-family: Pacifico;
+}

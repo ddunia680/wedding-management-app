@@ -1,0 +1,28 @@
+.header {
+    box-shadow: 1px 1px 5px 5px rgb(32, 32, 32);
+}
+
+.dropDownVisible {
+    animation: showV 0.3s ease-in-out forwards;
+}
+.dropDownNotVisible {
+    animation: hideV 0.3s ease-in-out forwards;
+}
+
+@keyframes showV {
+    0% {
+        transform: translateY(-100);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes hideV {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100);
+    }
+}
