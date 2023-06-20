@@ -6,12 +6,13 @@ body {
   background-image: url('./images//weddingBack.jpg');
   background-size: cover;
   background-position: center;
+  /* filter: brightness(50%); */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-    /* color: #d13e56 */
+    /* color: #e9e0e1 */
 }
 
 @tailwind base;

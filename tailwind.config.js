@@ -12,7 +12,10 @@ module.exports = {
         extraPink: '#d13e56',
         darkLighterBlue: '#020c1b',
         fromBack: '#e3e6e9',
-        marOrange: '#ed4a45'
+        marOrange: '#ed4a45',
+        maroon: '#2c1c1f',
+        lightBlue: '#36c7cb',
+        whitish: '#e9e0e1'
       }
     },
   },

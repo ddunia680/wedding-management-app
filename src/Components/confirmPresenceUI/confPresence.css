@@ -1,0 +1,76 @@
+.confirmP::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    background-color: rgb(86, 225, 243);
+    border-radius: 10px;
+
+    transition: transform 300ms ease-in-out;
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
+.confirmP:hover::before,
+.confirmP:focus::before {
+    transform: scaleX(1);
+}
+
+.confirmP {
+    z-index: 1;
+}
+
+.declineP::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    background-color: rgb(179, 92, 92);
+    border-radius: 10px;
+    color: wheat;
+
+    transition: transform 300ms ease-in-out;
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
+.declineP:hover::before,
+.declineP:focus::before {
+    transform: scaleX(1);
+}
+
+.declineP {
+    z-index: 1;
+}
+
+/* .isVisible {
+    animation: inView 1s ease-in-out forwards;
+}
+
+.isNotVisible {
+    animation: outOfView 1s ease-in-out forwards;
+}
+
+@keyframes inView {
+    0%{
+        transform: translateY(-100);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}
+
+@keyframes outOfView {
+    0%{
+        transform: translateY(0);
+    }
+    100%{
+        transform: translateY(-100);
+    }
+} */

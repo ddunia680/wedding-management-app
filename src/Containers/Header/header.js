@@ -5,14 +5,16 @@ import { faListUl, faX, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import { UserIcon, NewspaperIcon } from '@heroicons/react/24/solid'
 import icon from '../../images/icon.png';
 import { Transition } from 'react-transition-group';
+import { useTranslation } from 'react-i18next';
 
 function Header(props) {
     const [theme, setTheme] = useState('dark');
+    const { t } = useTranslation();
     const [showDropMenu, setShowDropM] = useState(false);
     const element = document.documentElement;
     const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-    const DropClasses = `absolute header backdrop-blur-md backdrop-brightness-150 dark:backdrop-brightness-75 right-0 
+    const DropClasses = `absolute bg-transparent backdrop-blur-xl backdrop-brightness-150 right-0 dark:backdrop-brightness-75
     top-[3rem] font-semibold rounded-bl-lg rounded-br-lg ${ showDropMenu ? 'dropDownVisible' : 'dropDownNotVisible' }`;
 
     useEffect(() => {
@@ -37,7 +39,7 @@ function Header(props) {
     }, [theme]);
 
     return (
-        <div className='header h-[3rem] md:h-[5rem] w-[100%] fixed backdrop-blur-md backdrop-brightness-150 dark:backdrop-brightness-75 flex 
+        <div className='h-[3rem] md:h-[5rem] w-[100%] fixed backdrop-blur-md backdrop-brightness-150 dark:backdrop-brightness-75 flex 
         justify-between items-center px-5 duration-75 dark:duration-75'>
             <div className='w-[3rem] h-[3rem] flex justify-start items-center space-x-2'>
                 <img src={icon} alt=''/> 
@@ -46,10 +48,10 @@ function Header(props) {
             </div>
             <div className='hidden md:flex w-[30%] h-[90%] justify-evenly items-center rounded-md'>
                 <p className='font-semibold text-darkLighterBlue cursor-pointer duration-75 hover:duration-75 hover:text-specialPink 
-                hover:underline'>Programme</p>
+                hover:underline'>{t('programB')}</p>
                 <button className='h-[100%] px-[1rem] font-semibold bg-transparent text-darkLighterBlue hover:bg-darkLighterBlue hover:text-white 
                 duration-75 dark:duration-75 rounded-lg'>
-                    Administrateur
+                    {t('adminB')}
                 </button>
                 <div className='hidden w-[3rem] md:w-[4rem] h-[1.7rem] md:h-[2rem] bg-darkLighterBlue dark:bg-white rounded-full 
                 mx-[1rem] md:flex items-center duration-75 dark:duration-75 justify-start dark:justify-end' 
@@ -65,7 +67,7 @@ function Header(props) {
             <div className='flex md:hidden w-[30%] h-[90%] justify-evenly items-center rounded-md'>
                 <div className='w-[3rem] h-[1.7rem] bg-darkLighterBlue dark:bg-white rounded-full 
                     mx-[1rem] flex md:hidden items-center duration-75 dark:duration-75 justify-start dark:justify-end' 
-                    onClick={() => (setTheme(curr => curr === 'dark' ? 'light' : 'dark'))}>
+                    onClick={() => {setTheme(curr => curr === 'dark' ? 'light' : 'dark')} }>
                         <div className='bg-white dark:bg-darkLighterBlue rounded-full h-[1.6rem] md:h-[1.8rem] w-[1.6rem] md:w-[1.8rem] 
                         mx-[0.1rem] md:mx-[0.2rem] flex justify-center items-center duration-75 dark:duration-75'>
                             <FontAwesomeIcon icon={ theme === 'dark' ? faMoon : faSun } className=' w-[0.7rem] md:w-[1rem] text-darkLighterBlue 
@@ -80,11 +82,12 @@ function Header(props) {
             </div>
             <Transition in={showDropMenu} timeout={300} mountOnEnter unmountOnExit>
                 <div className={DropClasses}>
-                    <p className=' px-[1rem] py-[0.3rem] text-[13px] text-darkLighterBlue dark:text-white flex justify-start'>
-                        Programme <NewspaperIcon className='text-darkLighterBlue dark:text-white w-[1rem]'/>
+                    <p className=' px-[1rem] py-[0.3rem] text-[13px] text-darkLighterBlue dark:text-gray-500 flex justify-start'>
+                        {t('programB')} <NewspaperIcon className='text-darkLighterBlue dark:text-gray-500 w-[1rem]'/>
                     </p>
-                    <p className='bg-white dark:bg-darkLighterBlue dark:text-white rounded-lg text-[13px] px-[1rem] py-[0.3rem] flex justify-start'>
-                        Administrateur <UserIcon className='text-specialPink w-[1rem]'/></p>
+                    <p className='bg-white dark:bg-darkLighterBlue dark:text-white rounded-lg text-[13px] px-[1rem] py-[0.3rem] flex justify-start'
+                    onClick={() => console.log('CLicked')}>
+                        {t('adminB')} <UserIcon className='text-specialPink w-[1rem]'/></p>
                 </div>
             </Transition>
         </div>
