@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './presentation.css';
 import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
-import ConfPresence from '../../Components/confirmPresenceUI/confPresence';
+import ConfPresence from '../confirmPresenceUI/confPresence';
 import { CSSTransition } from 'react-transition-group';
 
 function Presentation(props) {

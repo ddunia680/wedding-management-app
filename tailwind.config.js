@@ -11,6 +11,7 @@ module.exports = {
         specialPink: '#7c1828',
         extraPink: '#d13e56',
         darkLighterBlue: '#020c1b',
+        darkClose: '#031024',
         fromBack: '#e3e6e9',
         marOrange: '#ed4a45',
         maroon: '#2c1c1f',

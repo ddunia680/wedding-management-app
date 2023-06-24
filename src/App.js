@@ -1,12 +1,14 @@
 import { Suspense } from 'react';
 import './App.css';
-import Header from './Containers/Header/header';
-import Presentation from './Containers/Presentation/presentation';
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 import enTranslation from './utility/enTranslation';
 import frTranslation from './utility/frTranslation';
+import { Route, Routes } from 'react-router-dom';
+import WelcomePage from './Containers/welcomePage/welcomePage';
+import AdminLogin from './Containers/adminLogin/adminLogin';
+import InvitationsManagement from './Containers/InvitatationsManagement/invitationsManagement';
 
 const translationsEn = enTranslation;
 const translationsFr = frTranslation;
@@ -23,12 +25,16 @@ i18next.use(initReactI18next)
 });
 
 function App() {
-  // const { t } = useTranslation();
   return (
     <Suspense>
       <div className="App">
-        <Header/>
-        <Presentation/>
+        <Routes>
+          <Route path='/' element={<WelcomePage/>}/>
+          <Route path='/adminLog'>
+            <Route index element={<AdminLogin/>}/>
+            <Route path='manage' element={<InvitationsManagement/>} />
+          </Route>
+        </Routes>
       </div>
     </Suspense>
   );
