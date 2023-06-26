@@ -31,14 +31,14 @@ function InvitationsManagement() {
                             </div>}
                             <input type='file' className='hidden' ref={thePic} onChange={e => setProfImage(e.target.files[0])}/>
 
-                                <div className='w-[60%] flex flex-col md:flex-row items-center space-x-0 md:space-x-4'>
+                                <div className='w-[60%] flex flex-col md:flex-row items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0'>
                                     <div className="relative  md:w-1/2">
                                         <input id="name" name="name" type="text" className="peer h-10 w-[100%] border-b-2 border-pink-300 
                                         bg-transparent text-darkLighterBlue dark:text-specialGray placeholder-transparent focus:outline-none focus:border-pink-500 text-[13px] md:text-[15px]" 
                                         placeholder="john@doe.com" />
-                                        <label htmlFor="name" className="absolute left-0 -top-3.5 text-gray-900 dark:text-gray-600 text-[11px] md:text-[13px] transition-all 
-                                        peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-700 dark:peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 
-                                        peer-focus:-top-3.5 peer-focus:text-gray-900 dark:peer-focus:text-gray-600 peer-focus:text-sm">
+                                        <label htmlFor="name" className="absolute left-0 -top-3 text-gray-900 dark:text-gray-600 text-[11px] md:text-[13px] transition-all 
+                                        peer-placeholder-shown:text-[12px] peer-placeholder-shown:text-gray-700 dark:peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 
+                                        peer-focus:-top-2 peer-focus:text-gray-900 dark:peer-focus:text-gray-600 peer-focus:text-[12px]">
                                             {t('guestsNameLabel')}
                                         </label>
                                     </div>
@@ -46,9 +46,9 @@ function InvitationsManagement() {
                                         <input id="phone number" name="phoneNo" type="text" className="peer h-10 w-[100%] border-b-2 border-pink-300 
                                         bg-transparent text-darkLighterBlue dark:text-specialGray placeholder-transparent focus:outline-none focus:border-pink-500 text-[13px] md:text-[15px]" 
                                         placeholder="john@doe.com" />
-                                        <label htmlFor="phone Number" className="absolute left-0 -top-3.5 text-gray-900 dark:text-gray-600 text-[11px] md:text-[13px] transition-all 
-                                        peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-700 dark:peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 
-                                        peer-focus:-top-3.5 peer-focus:text-gray-900 dark:peer-focus:text-gray-600 peer-focus:text-sm">
+                                        <label htmlFor="phone Number" className="absolute left-0 -top-3 -md:top-3.5 text-gray-900 dark:text-gray-600 text-[11px] md:text-[13px] transition-all 
+                                        peer-placeholder-shown:text-[12px] peer-placeholder-shown:text-gray-700 dark:peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 
+                                        peer-focus:-top-2 md:peer-focus:-top-3.5 peer-focus:text-gray-900 dark:peer-focus:text-gray-600 peer-focus:text-[12px]">
                                             {t('guestsNumLabel')}
                                         </label>
                                     </div>

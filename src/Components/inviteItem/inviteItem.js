@@ -19,8 +19,8 @@ function InviteItem(props) {
     
     return (
         <div className='invBuilt relative w-[100%] py-[0.5rem] md:py-[1rem] dark:text-whitish text-darkLighterBlue flex justify-evenly items-center px-[2rem] 
-        shadow-2xl bg-pink-300 dark:bg-gradient-to-br dark:from-lightestDBlue dark:to-lightestDBlue rounded-xl' 
-        onMouseEnter={() => setHoveredOn(true)} onMouseLeave={() => setHoveredOn(false)}>
+        shadow-2xl bg-pink-300 dark:bg-gradient-to-br dark:from-lightestDBlue dark:to-lightestDBlue rounded-xl'
+        onMouseEnter={() => setHoveredOn(true)} onMouseLeave={() => setHoveredOn(false)} onClick={() => { showControl && setShowControl(false) }}>
             <UserCircleIcon className={profPicClasses.join(' ')}/>
             {/* <div className={profActualClasses.join(' ')}>
                 <img src={pic} alt='' className='w-[100%] h-[100%] object-contain'/>
@@ -33,12 +33,12 @@ function InviteItem(props) {
             </div>
             <p className='text-[13px] md:text-[15px]'>{t('confirmedInvite')}</p>
             { hoveredOn ? <EllipsisHorizontalIcon className='absolute top-1 right-1 w-[1.3rem] md:w-[2rem] dark:text-whitish 
-            text-darkLighterBlue rounded-full hover:bg-pink-400 dark:hover:bg-blue-900 cursor-pointer' onClick={() => setShowControl(true)}/> : null}
+            text-darkLighterBlue rounded-full hover:bg-pink-400 dark:hover:bg-blue-900 cursor-pointer' onClick={() => setShowControl(!showControl)}/> : null}
             <CSSTransition  in={showControl} timeout={500}  mountOnEnter unmountOnExit>
                 <div className={divOnEllipsisShow}>
-                    <p className='text-center w-[100%] py-[0.2rem] hover:text-whitish dark:hover:text-whitish hover:bg-black'>
+                    <p className='text-center w-[100%] py-[0.2rem] hover:text-whitish dark:hover:text-whitish hover:bg-black cursor-pointer' onClick={() => setShowControl(false)}>
                         {t('confirmFromEllipsis')}</p>
-                    <p className='text-center w-[100%] py-[0.2rem] hover:text-whitish dark:hover:text-whitish hover:bg-black'>
+                    <p className='text-center w-[100%] py-[0.2rem] hover:text-whitish dark:hover:text-whitish hover:bg-black cursor-pointer' onClick={() => setShowControl(false)}>
                         {t('excludeFromEllispsis')}</p>
                 </div>
             </CSSTransition>
