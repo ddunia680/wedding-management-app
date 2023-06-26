@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Header from '../../Components/Header/header';
-import { UserCircleIcon } from '@heroicons/react/24/solid';
+import { UserCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import InviteItem from '../../Components/inviteItem/inviteItem';
 import { useTranslation } from 'react-i18next';
 
 function InvitationsManagement() {
     const { t } = useTranslation();
+    const [profImage, setProfImage] = useState(null);
+    console.log(profImage);
+    const thePic = useRef();
     return (
         <div className='w-[100vw] h-[100vh] overflow-hidden'>
             <Header/>
@@ -18,8 +21,15 @@ function InvitationsManagement() {
                     </h2>
                     {/* The input container */}
                     <div className='w-[90%] bg-pink-200 dark:bg-darkClose mx-auto rounded-xl md:rounded-2xl flex flex-col justify-start items-center'>
-                        <div className='w-[100%] px-[0.5rem] flex justify-start items-center space-x-2'>
-                            <UserCircleIcon className='w-[18%] text-darkLighterBlue dark:text-whitish hover:dark:text-pink-400 hover:text-pink-900'/>
+                        <div className='w-[100%] px-[0.5rem] flex justify-center items-center space-x-2'>
+                            { !profImage ? <UserCircleIcon title='Click to choose photo' className='w-[4rem] md:w-[7rem] text-darkLighterBlue dark:text-whitish 
+                            hover:dark:text-pink-400 hover:text-pink-900' onClick={() => thePic.current.click()}/> :
+                            <div className='rounded-full w-[4rem] md:w-[7rem] h-[3.5rem] md:h-[7rem] relative'>
+                                <img src={URL.createObjectURL(profImage)} alt='prof' className='w-[100%] h-[100%] object-contain'/>
+                                <XMarkIcon className='absolute w-[1.5rem] text-white  rounded-full bg-black bg-opacity-50 bottom-1 
+                                left-[50%]' onClick={() => setProfImage(null)}/>
+                            </div>}
+                            <input type='file' className='hidden' ref={thePic} onChange={e => setProfImage(e.target.files[0])}/>
 
                                 <div className='w-[60%] flex flex-col md:flex-row items-center space-x-0 md:space-x-4'>
                                     <div className="relative  md:w-1/2">
@@ -43,17 +53,17 @@ function InvitationsManagement() {
                                         </label>
                                     </div>
                             </div>
-                            <select className='bg-black bg-opacity-30 rounded-lg text-[13px] md:text-[15px] dark:text-whitish focus:outline-none'>
+                            <select className='bg-black bg-opacity-30 rounded-lg text-[12px] md:text-[15px] dark:text-whitish focus:outline-none'>
                                 <option>{t('ordinaryOpt')}</option>
                                 <option>VIP</option>
                                 <option>V VIP</option>
                             </select>
                         </div>
-                        <button className='bg-gradient-to-br from-extraPink via-extraPink to-specialPink w-[80%] md:w-[20rem] py-[1rem] 
+                        <button className='bg-gradient-to-br from-extraPink via-extraPink to-specialPink w-[80%] md:w-[20rem] py-[0.5rem] md:py-[1rem] 
                         rounded-xl text-darkLighterBlue dark:text-whitish mb-5 hover:scale-110 mt-5 md:mt-0'>{t('inviteBText')}</button>
                     </div>
                 </div>
-                <div className='w-[70%] h-[45%] mx-auto flex flex-col space-y-1 justify-start items-start'>
+                <div className='w-[90%] md:w-[70%] h-[45%] mx-auto flex flex-col space-y-1 justify-start items-start'>
                     <InviteItem/>
                     <InviteItem/>
                 </div>

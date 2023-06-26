@@ -16,7 +16,7 @@ function Header(props) {
     const [showDropMenu, setShowDropM] = useState(false);
     const element = document.documentElement;
     const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    console.log(location.pathname);
+    // console.log(location.pathname);
 
     const DropClasses = `absolute right-0 dark:backdrop-brightness-75
     top-[3rem] font-semibold rounded-bl-lg rounded-br-lg ${ showDropMenu ? 'dropDownVisible' : 'dropDownNotVisible' } 

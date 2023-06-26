@@ -16,7 +16,11 @@ const transition = {
     guestsNameLabel: "Nom de l'invité",
     guestsNumLabel: 'No de Tel',
     ordinaryOpt: 'Ordinaire',
-    inviteBText: 'Inviter'
+    inviteBText: 'Inviter',
+    confirmedInvite: 'Confirmé',
+    stillPending: 'En attente',
+    confirmFromEllipsis: 'Confirmer présence',
+    excludeFromEllispsis: 'Exclure'
 }
 
 export default transition;
