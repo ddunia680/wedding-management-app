@@ -7,8 +7,9 @@ import { useTranslation } from 'react-i18next';
 function InvitationsManagement() {
     const { t } = useTranslation();
     const [profImage, setProfImage] = useState(null);
-    console.log(profImage);
+    // console.log(profImage);
     const thePic = useRef();
+    // console.log(process.env.REACT_APP_BACKEND_URL);
     return (
         <div className='w-[100vw] h-[100vh] overflow-hidden'>
             <Header/>
