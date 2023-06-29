@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import validate from '../../utility/validation';
 
 import rings from '../../Gifs/weddingRing.json';
+import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
 
 function AdminLogin(props) {
@@ -22,6 +23,9 @@ function AdminLogin(props) {
 
     const [formIsValid, setFormIsValid] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     const emailInptClasses = [`peer h-10 w-[18rem] md:w-[20rem] border-b-2 bg-transparent text-gray-900 dark:text-specialGray 
     placeholder-transparent focus:outline-none`, !emailIsValid && emailTouched ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-sky-500'];
@@ -51,9 +55,26 @@ function AdminLogin(props) {
         }
     }
 
-    const sendAuth = () => {
+    const sendAuth = async () => {
         setLoading(true);
-
+        const data = {
+            email: email,
+            password: password
+        }
+        try{
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}auth/signin`, data);
+            setLoading(false);
+            console.log(response);
+        } catch(err) {
+            setLoading(false)
+            if(err.response.data.message.includes('email')) {
+                setEmailIsValid(false);
+                setEmailError(err.response.data.message);
+            } else if(err.response.data.message.includes('password')) {
+                setPasswordIsValid(false);
+                setPasswordError(err.response.data.message);
+            }
+        }        
     }
     
     return (
@@ -84,6 +105,7 @@ function AdminLogin(props) {
                             peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
                                 Email
                             </label>
+                            <p className='absolute text-[12px] top-[2.3rem] text-red-500'>{emailError}</p>
                         </div>
                         {/* Password */}
                         <div className="mt-10 relative">
@@ -95,6 +117,7 @@ function AdminLogin(props) {
                             <label htmlFor='password' className="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all 
                             peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 
                             peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">{t('passw')}</label>
+                            <p className='absolute text-[12px] top-[2.3rem] text-red-500'>{passwordError}</p>
                         </div>
 
                         {/* Login button */}
