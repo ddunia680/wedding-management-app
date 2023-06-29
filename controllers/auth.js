@@ -1,9 +1,10 @@
 const Admin = require('../models/admin');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 
 exports.signIn = async (req, res) => {
-
+    console.log('was hit');
     const errors = validationResult(req);
     console.log(errors);
     if(!errors.isEmpty()) {
@@ -15,13 +16,19 @@ exports.signIn = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    const user = await Admin.findOne({email: email});
-    console.log(user);
-    if(!user) {
-        return res.status(500).json({
-            message: 'No user found'
-        })
-    }
+    try {
+        const user = await Admin.findOne({email: email});
 
-    // const isEqual = await bcrypt.compare(password, )
+        if(!user) {
+            return res.status(500).json({
+                message: 'wrong email address'
+            })
+        }
+
+        const isEqual = await bcrypt.compare(password, user.password);
+        // if()
+    } catch(err) {
+
+    }
+    
 }
