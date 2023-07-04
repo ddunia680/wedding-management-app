@@ -2,6 +2,7 @@ const transition = {
     adminB: 'Admininstrateur', 
     programB: 'Programme',
     homeB: 'Accueil',
+    logoutB: 'Déconnecter',
     presentation1stLine: 'Vous etes le bienvenu au mariage de',
     wedDate: 'Ce 4 Juillet 2023', 
     confirmPresence: 'Confirmer votre presence',

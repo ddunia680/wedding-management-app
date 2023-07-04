@@ -2,28 +2,37 @@ import React, { useEffect, useState } from 'react';
 import './header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faListUl, faX, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
-import { UserIcon, NewspaperIcon, HomeIcon } from '@heroicons/react/24/solid'
+import { UserIcon, NewspaperIcon, HomeIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import icon from '../../images/icon.png';
-import { Transition } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { LOGOUT } from '../../store/authenticate';
 
 function Header(props) {
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
+
     const [theme, setTheme] = useState('dark');
     const { t } = useTranslation();
     const [showDropMenu, setShowDropM] = useState(false);
+    const [showLogoutB, setShowLogoutB] = useState(false);
     const element = document.documentElement;
     const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    // console.log(location.pathname);
+    const token = useSelector(state => state.authenticate.token);
+    const email = useSelector(state => state.authenticate.email);
 
-    const DropClasses = `absolute right-0 dark:backdrop-brightness-75
-    top-[3rem] font-semibold rounded-bl-lg rounded-br-lg ${ showDropMenu ? 'dropDownVisible' : 'dropDownNotVisible' } 
-    ${ location.pathname !== '/' ? 'bg-darkLighterBlue dark:bg-whitish border-[1px] border-darkLighterBlue dark:border-whitish' :
-     'bg-transparent backdrop-blur-xl backdrop-brightness-150' }`;
+    const DropClasses = [`absolute right-0 dark:backdrop-brightness-75 top-[3rem] font-semibold rounded-bl-lg rounded-br-lg`, showDropMenu ? 
+    'dropDownVisible' : 'dropDownNotVisible', location.pathname !== '/' ? 'bg-darkLighterBlue dark:bg-whitish border-[1px] border-darkLighterBlue dark:border-whitish' :
+     'bg-transparent backdrop-blur-xl backdrop-brightness-150'];
+     
     const adminButtonClasses= `h-[100%] px-[1rem] font-semibold hover:bg-darkLighterBlue hover:text-white duration-75 dark:duration-75 
     rounded-lg ${ location.pathname.includes('adminLog') ? 'bg-darkLighterBlue text-white' : 'bg-transparent text-darkLighterBlue' }`;
+
+    const logoutBClasses = [`absolute top-[2.5rem] left-3 bg-red-700 text-whitish rounded-lg text-[13px] px-[1rem] py-[0.3rem] flex 
+    justify-start shadow-lg shadow-black hover:bg-red-500 cursor-pointer`, showLogoutB ? 'LogoutBVisible' : 'LogoutBInVisible'];
 
     useEffect(() => {
         if(darkQuery.matches === false) {
@@ -46,9 +55,18 @@ function Header(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [theme]);
 
+    const issueLogout = () => {
+        if(location.pathname !== '/' && location.pathname !== '/adminLog') {
+            navigate('/adminLog');
+          } else {
+            navigate('/');
+          }
+        dispatch(LOGOUT());
+    }
+
     return (
         <div className='h-[3rem] md:h-[5rem] w-[100%] fixed top-0 left-0 backdrop-blur-md backdrop-brightness-150 dark:backdrop-brightness-75 flex 
-        justify-between items-center px-5 duration-75 dark:duration-75 z-10'>
+        justify-between items-center px-5 duration-75 dark:duration-75 z-10' onClick={() => showLogoutB && setShowLogoutB(false)}>
             <div className='w-[3rem] h-[3rem] flex justify-start items-center space-x-2'>
                 <img src={icon} alt=''/> 
                 <p className='hidden md:block text-[17px] font-semibold text-transparent bg-clip-text bg-gradient-to-r
@@ -63,6 +81,16 @@ function Header(props) {
                 <button className={adminButtonClasses} onClick={() => navigate('/adminLog')}>
                     {t('adminB')}
                 </button>
+                { token ? <div className='relative w-[3rem] min-w-[2rem] h-[3rem] min-h-[2rem] bg-gray-700 hover:bg-gray-300 rounded-full'
+                 title={email} onClick={() => setShowLogoutB(!showLogoutB)}>
+                    <UserCircleIcon className='w-[3rem]'/>
+                    <CSSTransition in={showLogoutB} timeout={300} mountOnEnter unmountOnExit>
+                        <p className={logoutBClasses.join(' ')} title={t('logoutB')} onClick={() => issueLogout()}>
+                            {t('logoutB')} <UserCircleIcon className='text-whitish w-[1rem]'/>
+                    </p>
+                    </CSSTransition>
+                    
+                </div> : null}
                 <div className='hidden w-[3rem] md:w-[4rem] md:min-w-[4rem] h-[1.7rem] md:h-[2rem] bg-darkLighterBlue dark:bg-white rounded-full 
                 mx-[1rem] md:flex items-center duration-75 dark:duration-75 justify-start dark:justify-end' 
                 onClick={() => (setTheme(curr => curr === 'dark' ? 'light' : 'dark'))}>
@@ -91,19 +119,27 @@ function Header(props) {
                 :
                 <FontAwesomeIcon icon={faX} className='text-darkLighterBlue dark:text-white text-xl duration-75' onClick={() => setShowDropM(!showDropMenu)}/> }
             </div>
-            <Transition in={showDropMenu} timeout={300} mountOnEnter unmountOnExit>
-                <div className={DropClasses}>
-                <p className=' px-[1rem] py-[0.3rem] text-[13px] text-whitish dark:text-gray-500 flex justify-start'>
+            <CSSTransition in={showDropMenu} timeout={300} mountOnEnter unmountOnExit>
+                <div className={DropClasses.join(' ')}>
+                { location.pathname !== '/' ? <p className=' px-[1rem] py-[0.3rem] text-[13px] text-whitish dark:text-gray-500 flex 
+                justify-start' onClick={() => {
+                    navigate('/');
+                    setShowDropM(false);
+                    }}>
                         {t('homeB')} <HomeIcon className='w-[1rem]'/>
-                    </p>
+                    </p> : null}
                     <p className=' px-[1rem] py-[0.3rem] text-[13px] text-whitish dark:text-gray-500 flex justify-start'>
                         {t('programB')} <NewspaperIcon className='w-[1rem]'/>
                     </p>
                     <p className='bg-white dark:bg-darkLighterBlue dark:text-white rounded-lg text-[13px] px-[1rem] py-[0.3rem] flex justify-start'
-                    onClick={() => console.log('CLicked')}>
-                        {t('adminB')} <UserIcon className='text-specialPink w-[1rem]'/></p>
+                    onClick={() => navigate('/adminLog')}>
+                        {t('adminB')} <UserIcon className='text-specialPink w-[1rem]'/>
+                    </p>
+                    { token ? <p className=' px-[1rem] py-[0.3rem] text-[13px] text-red-700 flex justify-start' onClick={() => issueLogout()}>
+                        {t('logoutB')} <UserCircleIcon className='w-[1rem]'/>
+                    </p> : null}
                 </div>
-            </Transition>
+            </CSSTransition>
         </div>
     );
 }

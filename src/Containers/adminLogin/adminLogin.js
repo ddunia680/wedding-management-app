@@ -7,11 +7,14 @@ import validate from '../../utility/validation';
 
 import rings from '../../Gifs/weddingRing.json';
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { AUTHENTICATE } from '../../store/authenticate';
 
 function AdminLogin(props) {
     const { t } = useTranslation();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -64,7 +67,16 @@ function AdminLogin(props) {
         try{
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}auth/signin`, data);
             setLoading(false);
-            console.log(response);
+            
+            dispatch(AUTHENTICATE({token: response.data.token, email: response.data.email}));
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('email', response.data.email);
+            const remainingMilliseconds = 60 * 60 * 1000;
+            const expiryDate = new Date(
+                new Date().getTime() + remainingMilliseconds
+            );
+            localStorage.setItem('expiryDate', expiryDate.toISOString());
+            navigate('manage');
         } catch(err) {
             setLoading(false)
             if(err.response.data.message.includes('email')) {

@@ -5,20 +5,65 @@
     animation: hideV 0.3s ease-in-out forwards;
 }
 
+.LogoutBVisible {
+    animation: showLogoutB 0.3s ease-in-out forwards;
+}
+.LogoutBInVisible {
+    animation: hideLogoutB 0.3s ease-in-out forwards;
+}
+
 @keyframes showV {
     0% {
-        transform: translateY(-100);
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    75% {
+        opacity: 0;
     }
     100% {
-        transform: translateY(0);
+        transform: translateY(0%);
+        opacity: 1;
     }
 }
 
 @keyframes hideV {
     0% {
-        transform: translateY(0);
+        transform: translateY(0%);
+        opacity: 1;
+    }
+    75% {
+        opacity: 0;
     }
     100% {
-        transform: translateY(-100);
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes showLogoutB {
+    0% {
+        transform: translateY(-100%) translateX(-100%);
+        opacity: 0;
+    }
+    75% {
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0%) translateX(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes hideLogoutB {
+    0% {
+        transform: translateY(0%) translateX(0%);
+        opacity: 1;
+    }
+    25% {
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(-100%) translateX(-100%);
+        opacity: 0;
     }
 }

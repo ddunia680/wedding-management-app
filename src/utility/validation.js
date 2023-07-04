@@ -24,7 +24,7 @@ const validate = (input) => {
             }
             break;
         case 'number': 
-            if(input.value.length >= 5) {
+            if(input.value.length === 13 && input.value.includes('+') && /^\d+$/.test(input.value.slice(1, 15)) && input.value.slice(1, 4) === '256') {
                 results.number = true
             } else {
                 results.number = false
