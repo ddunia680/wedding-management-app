@@ -8,6 +8,10 @@ const guestSchema = Schema({
         type: String,
         required: true
     },
+    phoneNo: {
+        type: String,
+        required: true
+    },
     level: {
         type: String,
         required: true,
