@@ -11,6 +11,11 @@ import AdminLogin from './Containers/adminLogin/adminLogin';
 import InvitationsManagement from './Containers/InvitatationsManagement/invitationsManagement';
 import { useDispatch, useSelector } from 'react-redux';
 import { KEPTAUTHENTICATED, LOGOUT } from './store/authenticate';
+import { CSSTransition } from 'react-transition-group';
+
+import wedding from './images/wedding.jpg';
+import NotifComponent from './UI/notifComponent/notifComponent';
+import { HIDENOTIFVIEW } from './store/notifHandler';
 
 const translationsEn = enTranslation;
 const translationsFr = frTranslation;
@@ -31,8 +36,18 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const token = useSelector(state => state.authenticate.token);
+  const aNotification = useSelector(state => state.notifHandler.aNotification);
   const expiryDate = localStorage.getItem('expiryDate');
   const storedToken = localStorage.getItem('token');
+
+  useEffect(() => {
+    if(aNotification) {
+      setTimeout(() => {
+        dispatch(HIDENOTIFVIEW());
+      }, 5000);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [aNotification]);
 
   useEffect(() => {
     if(new Date(expiryDate).getTime() <= new Date().getTime()) {
@@ -66,7 +81,10 @@ function App() {
 
   return (
     <Suspense>
-      <div className="App">
+      <div className="App relative">
+        <div className='absolute top-0 left-0 w-[100vw] h-[100vh] overflow-hidden -z-50'>
+          <img src={wedding} alt='theBack' className=' theBack w-[100%] h-[100%] object-cover'/>
+        </div>
         <Routes>
           <Route path='/' element={<WelcomePage/>}/>
           <Route path='/adminLog'>
@@ -75,6 +93,10 @@ function App() {
           </Route>
           <Route path='*' element={<p>Page not found</p>} />
         </Routes>
+        <CSSTransition in={aNotification} timeout={300} mountOnEnter unmountOnExit>
+          <NotifComponent/>
+        </CSSTransition>
+        
       </div>
     </Suspense>
   );

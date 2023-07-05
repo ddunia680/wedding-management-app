@@ -1,0 +1,15 @@
+.theBack {
+    animation: animate 10s ease-in-out forwards;
+}
+
+@keyframes animate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(2);
+    }
+    100%{
+        transform: scale(1);
+    }
+}

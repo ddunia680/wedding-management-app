@@ -1,3 +1,7 @@
+.mytext {
+  text-shadow: 2px 2px 10px black;
+}
+
 .confirmB::before {
     content: '';
     position: absolute;

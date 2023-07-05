@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AUTHENTICATE } from '../../store/authenticate';
+import { ADDANOTIFICATION } from '../../store/notifHandler';
 
 function AdminLogin(props) {
     const { t } = useTranslation();
@@ -77,14 +78,17 @@ function AdminLogin(props) {
             );
             localStorage.setItem('expiryDate', expiryDate.toISOString());
             navigate('manage');
+            dispatch(ADDANOTIFICATION({notif: true, isError: false, notifMessage: `Welcome dear ${response.data.email}`}));
         } catch(err) {
-            setLoading(false)
+            setLoading(false);
             if(err.response.data.message.includes('email')) {
                 setEmailIsValid(false);
                 setEmailError(err.response.data.message);
             } else if(err.response.data.message.includes('password')) {
                 setPasswordIsValid(false);
                 setPasswordError(err.response.data.message);
+            } else {
+                dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));
             }
         }        
     }
@@ -100,8 +104,8 @@ function AdminLogin(props) {
                 <div className='w-[100%] h-[100%] md:h-[90%] mt-0 flex justify-center md:justify-between items-center px-[2rem] duration-75 dark:duration-75 
                 overflow-hidden box-border'>    
                     {/* Sign in View */}
-                    <div className="p-[2rem] bg-white dark:bg-gradient-to-br dark:from-darkLighterBlue dark:via-darkLighterBlue 
-                        dark:to-extraPink rounded-tr-[2rem] rounded-bl-[2rem]">
+                    <div className="p-[2rem] bg-whitish dark:bg-gradient-to-br dark:from-darkLighterBlue dark:via-darkLighterBlue 
+                        dark:to-extraPink rounded-tr-[2rem] rounded-bl-[2rem] shadow-md shadow-black">
                         <h1 className="text-2xl font-semibold text-darkLighterBlue dark:text-specialGray mb-5 flex justify-start items-center">
                             {t('adminWelcome')}{ window.innerWidth <= 500 ? <Lottie animationData={rings} className='w-[3rem]'/> : null}
                         </h1>

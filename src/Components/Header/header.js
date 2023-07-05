@@ -70,7 +70,7 @@ function Header(props) {
             <div className='w-[3rem] h-[3rem] flex justify-start items-center space-x-2'>
                 <img src={icon} alt=''/> 
                 <p className='hidden md:block text-[17px] font-semibold text-transparent bg-clip-text bg-gradient-to-r
-                 from-marOrange to-white'>Invitation</p>
+                 from-marOrange to-gray-700'>Invitation</p>
             </div>
             <div className='hidden md:flex md:w-[60%] xl:w-[30%] h-[90%] justify-evenly items-center rounded-md'>
                 { location.pathname !== '/' ? <p className='font-semibold px-[1rem] text-specialPink cursor-pointer duration-75 

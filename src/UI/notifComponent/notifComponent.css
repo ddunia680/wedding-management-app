@@ -1,0 +1,24 @@
+.showNotif {
+    animation: showN 0.3s ease-in forwards;
+}
+.hideNotif {
+    animation: hideN 0.3s ease-out forwards;
+}
+
+@keyframes showN {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes hideN {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}

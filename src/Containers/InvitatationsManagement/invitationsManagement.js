@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { ADDAGUEST, PULLEDGUESTSAVE } from '../../store/guests';
 import Spinner from '../../utility/spinner/spinner';
+import { ADDANOTIFICATION } from '../../store/notifHandler';
 
 function InvitationsManagement() {
     const { t } = useTranslation();
@@ -65,11 +66,10 @@ function InvitationsManagement() {
             .then(response => {
                 setGuestsPullLoading(false);
                 dispatch(PULLEDGUESTSAVE(response.data.guests));
-                console.log(response);
             })
             .catch(err => {
                 setGuestsPullLoading(false);
-                console.log(err);
+                dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));
             })
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,7 +77,13 @@ function InvitationsManagement() {
 
     let theGuests;
     if(guestsPullLoading) {
-        theGuests = <Spinner/>
+        theGuests = <div className='mx-auto'><Spinner/></div>
+    } else if( !guestsPullLoading && guests.length) {
+        theGuests = guests.map(guest => {
+            return <InviteItem key={guest._id} guest={guest}/>
+        })
+    } else {
+        theGuests = <p className='mx-auto text-darkLighterBlue dark:text-gray-300 text-[13px] md:text-[15px]'>No guests found</p>
     }
 
     const validateInputs = (input) => {
@@ -114,13 +120,16 @@ function InvitationsManagement() {
                     Authorization: 'Bearer '+ token
                 }
             });
+            // console.log(response);
             setLoading(false);
             setProfImage('');
             setName('');
             setPhoneNo('');
             setQuality('ordinary');
             dispatch(ADDAGUEST(response.data.guest));
+            dispatch(ADDANOTIFICATION({notif: true, isError: false, notifMessage: response.data.message}));
         } catch(err) {
+            console.log(err);
             setLoading(false);
             if(err.response.data.message.includes('name')) { setNameError(err.response.data.message); setNameIsValid(false) };
             if(err.response.data.message.includes('phone number')) { setPhoneNoError(err.response.data.message); setPhoneNoIsValid(false) };
@@ -195,9 +204,8 @@ function InvitationsManagement() {
                         </button>
                     </div>
                 </div>
-                <div className='w-[90%] md:w-[70%] h-[45%] mx-auto flex flex-col space-y-1 justify-start items-start'>
-                    <InviteItem/>
-                    <InviteItem/>
+                <div className='w-[90%] md:w-[70%] h-[45%] mx-auto flex flex-col space-y-1 justify-start items-start overflow-y-scroll'>
+                    {theGuests}
                 </div>
             </div>
             <p className='absolute bottom-1 left-[30%] md:left-[40%] text-[12px] md:text-[13px] text-whitish dark:text-slate-400'>wedding planning app &copy; 2023</p>

@@ -3,11 +3,11 @@ body {
   font-family: Poppins;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('./images//weddingBack.jpg');
+  /* background-image: url('./images/wedding.jpg');
   background-size: cover;
-  background-position: center;
-  /* background-repeat: no-repeat; */
-  /* filter: brightness(50%); */
+  background-position: center; */
+  /* --background-repeat: no-repeat; */
+  /* --filter: brightness(50%); */
 }
 
 code {
