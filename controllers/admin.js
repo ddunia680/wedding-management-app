@@ -76,3 +76,11 @@ exports.getAllGuests = async (req, res) => {
         })
     }
 }
+
+exports.confirmGuestPresence = async (req, res) => {
+
+}
+
+exports.excludeGuest = async (req, res) => {
+    
+}
