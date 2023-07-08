@@ -1,0 +1,15 @@
+.theGuests::-webkit-scrollbar {
+    width: 5px;
+}
+
+.theGuests::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.theGuests::-webkit-scrollbar-thumb {
+    background: #71767b;
+}
+
+.theGuests::-webkit-scrollbar-thumb:hover {
+    background: #a9b0b4;
+}

@@ -10,6 +10,8 @@ import { ADDAGUEST, PULLEDGUESTSAVE } from '../../store/guests';
 import Spinner from '../../utility/spinner/spinner';
 import { ADDANOTIFICATION } from '../../store/notifHandler';
 
+import './invitationsManagement.css';
+
 function InvitationsManagement() {
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -125,6 +127,7 @@ function InvitationsManagement() {
             setProfImage('');
             setName('');
             setPhoneNo('');
+            setFormIsValid(false);
             setQuality('ordinary');
             dispatch(ADDAGUEST(response.data.guest));
             dispatch(ADDANOTIFICATION({notif: true, isError: false, notifMessage: response.data.message}));
@@ -204,11 +207,11 @@ function InvitationsManagement() {
                         </button>
                     </div>
                 </div>
-                <div className='w-[90%] md:w-[70%] h-[45%] mx-auto flex flex-col space-y-1 justify-start items-start overflow-y-scroll'>
+                <div className='theGuests w-[90%] md:w-[70%] h-[45%] mx-auto flex flex-col space-y-1 justify-start items-start overflow-y-scroll z-10'>
                     {theGuests}
                 </div>
             </div>
-            <p className='absolute bottom-1 left-[30%] md:left-[40%] text-[12px] md:text-[13px] text-whitish dark:text-slate-400'>wedding planning app &copy; 2023</p>
+            <p className='absolute bottom-1 left-[30%] md:left-[40%] text-[12px] md:text-[13px] text-slate-700'>wedding planning app &copy; 2023</p>
         </div>
     );
 }

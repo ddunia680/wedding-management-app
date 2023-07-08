@@ -158,7 +158,7 @@ function AdminLogin(props) {
                     </div>
                 </div>
             </div>
-            <p className='absolute bottom-1 left-[30%] md:left-[40%] text-[12px] md:text-[13px] text-whitish dark:text-slate-400'>wedding planning app &copy; 2023</p>
+            <p className='absolute bottom-1 left-[30%] md:left-[40%] text-[12px] md:text-[13px] text-slate-700'>wedding planning app &copy; 2023</p>
         </div>
     );
 }
