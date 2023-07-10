@@ -87,6 +87,7 @@ function App() {
         </div>
         <Routes>
           <Route path='/' element={<WelcomePage/>}/>
+          <Route path='/:id' element={<WelcomePage/>} />
           <Route path='/adminLog'>
             <Route index element={<AdminLogin/>}/>
             { token ? <Route path='manage' element={ <InvitationsManagement/>} /> : null}

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { UserCircleIcon, StarIcon, CheckBadgeIcon, ClockIcon } from '@heroicons/react/24/solid';
 import { EllipsisHorizontalIcon} from '@heroicons/react/24/outline';
 // import pic from  '../../images/wedPic.png';
@@ -20,37 +20,68 @@ function InviteItem(props) {
     const [status, setStatus] = useState(props.guest.status);
     const [confLoading, setConfLoading] = useState(false);
     const [excludeLoading, setExcludeLoading] = useState(false);
-    // const [controlIsIntersecting, setControlIsIntersecting] = useState(false);
+    const [controlIsIntersecting, setControlIsIntersecting] = useState(false);
+    const [refIsIntersecting, setRefIsIntersecting] = useState(false);
+    const [controlDown, setControlDown] = useState(false);
+    const [deleting, setDeleting] = useState(false);
     const theControl = useRef();
+    const theRefPoint = useRef();
+    // console.log(status);
 
+    const inviteItemClasses = [`relative w-[100%] py-[0.5rem] md:py-[1rem] dark:text-whitish text-darkLighterBlue flex justify-evenly items-center px-[2rem] 
+    shadow-2xl bg-pink-300 dark:bg-gradient-to-br dark:from-lightestDBlue dark:to-lightestDBlue rounded-xl z-0`, deleting? 'unbuilt' : 'invBuilt'];
     const profPicClasses = ['w-[2rem] md:w-[3rem] text-pink-900 hover:scale-110 dark:text-blue-500 rounded-full shadow-xl shadow-black', hoveredOn ? 'picVisible' : 'picInvisible'];
     const profActualClasses = ['w-[2rem] h-[2rem] md:w-[3rem] md:h-[3rem] bg-yellow-400 hover:scale-110  shadow-xl shadow-black rounded-full overflow-hidden', hoveredOn ? 'picVisible' : 'picInvisible'];
-    const divOnEllipsisShow = `absolute w-[10rem] -top-[2.5rem] right-0 backdrop-blur-xl backdrop-brightness-75 text-darkLighterBlue dark:text-whitish flex flex-col 
-    justify-start items-start rounded-lg overflow-hidden shadow-md shadow-black text-[13px] z-500 ${showControl ? 'controlVisible' : 'controlHidden'}`;
+    const divOnEllipsisShow = [`absolute w-[10rem] right-0 backdrop-blur-xl backdrop-brightness-75 text-darkLighterBlue dark:text-whitish flex flex-col 
+    justify-start items-start rounded-lg overflow-hidden shadow-md shadow-black text-[13px] z-100`, showControl ? controlDown ? 'controlVisibleFDown top-[2rem]' : 'controlVisible -top-[2.5rem]' : controlDown ? 'controlInVisibleFDown' : 'controlHidden'];
     
-    // useEffect(() => {
-    //     if(showControl) {
-    //         const observer = new IntersectionObserver(
-    //             (entries) => {
-    //                 const entry = entries[0];
-    //                 setControlIsIntersecting(entry.isIntersecting);
-    //             }, { rootMargin: '-100px' });
-    //             observer.observe(theControl.current);
-    //             return () => observer.disconnect();
-    //     }
-    // }, [showControl]);
+    useEffect(() => {
+        if(showControl) {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    const entry = entries[0];
+                    setControlIsIntersecting(entry.isIntersecting);
+                }, { rootMargin: '-100px' });
+                observer.observe(theControl.current);
+                return () => observer.disconnect();
+        }
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const entry = entries[0];
+                setRefIsIntersecting(entry.isIntersecting);
+            }, { rootMargin: '-100px' });
+            observer.observe(theRefPoint.current);
+            return () => observer.disconnect();
+    }, [showControl]);
+
+    useEffect(() => {
+        if(!refIsIntersecting && controlIsIntersecting) {
+            setControlDown(true);
+        } else {
+            setControlDown(false);
+        }
+    }, [controlIsIntersecting, refIsIntersecting]);
+
+    useEffect(() => {
+        if(deleting) {
+            setTimeout(() => {
+                dispatch(DELETEGUEST(props.guest._id));
+            }, 500);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [deleting]);
 
     const confirmPresence = async () => {
         setConfLoading(true);
         try {
-            const theResponse = await axios.post(`${process.env.REACT_APP_BACKEND_URL}adminConfirmGuestPresence/${props.guest._id}`, {
+            const theResponse = await axios.post(`${process.env.REACT_APP_BACKEND_URL}adminConfirmGuestPresence`, { id: props.guest._id}, {
                 headers: {
                     Authorization: 'Bearer '+ token
                 }
             });
             setConfLoading(false);
             setShowControl(false);
-            setStatus(theResponse.data.status);
+            setStatus(theResponse.data.guest.status);
             dispatch(ADDANOTIFICATION({notif: true, isError: false, notifMessage: theResponse.data.message}));
         } catch(err) {
             setConfLoading(false);
@@ -62,14 +93,14 @@ function InviteItem(props) {
     const excludeGuest = async () => {
         setExcludeLoading(true);
         try {
-            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}excludeGuest/${props.guest._id}`, {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}excludeGuest`, {id: props.guest._id}, {
                 headers: {
                     Authorization: 'Bearer '+ token
                 }
             });
             setExcludeLoading(false);
             setShowControl(false);
-            dispatch(DELETEGUEST(props.guest._id));
+            setDeleting(true);
             dispatch(ADDANOTIFICATION({notif: true, isError: false, notifMessage: response.data.message}));
         } catch(err) {
             setExcludeLoading(false);
@@ -80,9 +111,9 @@ function InviteItem(props) {
 
 
     return (
-        <div className='invBuilt relative w-[100%] py-[0.5rem] md:py-[1rem] dark:text-whitish text-darkLighterBlue flex justify-evenly items-center px-[2rem] 
-        shadow-2xl bg-pink-300 dark:bg-gradient-to-br dark:from-lightestDBlue dark:to-lightestDBlue rounded-xl'
+        <div className={inviteItemClasses.join(' ')}
         onMouseEnter={() => setHoveredOn(true)} onMouseLeave={() => setHoveredOn(false)} onClick={() => { showControl && setShowControl(false) }}>
+            <div className='absolute top-[1.5rem] md:-top-[2rem] left-0' ref={theRefPoint}></div>
             { !props.guest.profileUrl ? <UserCircleIcon className={profPicClasses.join(' ')}/> :
             <div className={profActualClasses.join(' ')}>
                 <img src={props.guest.profileUrl} alt='' className='w-[100%] h-[100%] object-contain'/>
@@ -95,15 +126,15 @@ function InviteItem(props) {
             </div>
             <p className='text-[13px] md:text-[15px] flex justify-start items-center space-x-2'>
                 { status === 'pending' ? t('stillPending') : t('confirmedInvite')} 
-                { !status === 'pending' ? <CheckBadgeIcon className='w-[1.2rem] md:w-[1.5rem] text-yellow-400'/> : <ClockIcon className='w-[1.2rem] md:w-[1.5rem] text-purple-500'/>}
+                { status === 'confirmed' ? <CheckBadgeIcon className='w-[1.2rem] md:w-[1.5rem] text-yellow-600'/> : <ClockIcon className='w-[1.2rem] md:w-[1.5rem] text-purple-500'/>}
                 </p>
             { hoveredOn ? <EllipsisHorizontalIcon className='absolute top-1 right-1 w-[1.3rem] md:w-[2rem] dark:text-whitish 
             text-darkLighterBlue rounded-full hover:bg-pink-400 dark:hover:bg-blue-900 cursor-pointer' title='action?' onClick={() => setShowControl(!showControl)}/> : null}
             <CSSTransition  in={showControl} timeout={500}  mountOnEnter unmountOnExit>
-                <div className={divOnEllipsisShow} ref={theControl}>
-                    <p className='text-center w-[100%] py-[0.2rem] hover:text-whitish dark:hover:text-whitish hover:bg-black 
-                    cursor-pointer flex justify-start items-center' onClick={() => confirmPresence()}>
-                        {t('confirmFromEllipsis')}</p>
+                <div className={divOnEllipsisShow.join(' ')} ref={theControl}>
+                    { status === 'pending' ? <p className='w-[100%] py-[0.2rem] hover:text-whitish dark:hover:text-whitish hover:bg-black 
+                    cursor-pointer flex justify-center items-center' onClick={() => confirmPresence()}>
+                        {t('confirmFromEllipsis')}</p> : null}
                         { confLoading ? 
                             <svg aria-hidden="true" className="inline w-4 h-4 mr-2 text-gray-200 animate-spin dark:text-gray-600 ml-2 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
@@ -111,7 +142,7 @@ function InviteItem(props) {
                             </svg>
                         : null}
                     <p className='text-center w-[100%] py-[0.2rem] hover:text-whitish dark:hover:text-whitish hover:bg-black 
-                    cursor-pointer flex justify-start items-center' onClick={() => excludeGuest()}>
+                    cursor-pointer flex justify-center items-center' onClick={() => excludeGuest()}>
                         {t('excludeFromEllispsis')}
                         { excludeLoading ? 
                             <svg aria-hidden="true" className="inline w-4 h-4 mr-2 text-gray-200 animate-spin dark:text-gray-600 ml-2 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -122,7 +153,6 @@ function InviteItem(props) {
                         </p>
                 </div>
             </CSSTransition>
-            
         </div>
     );
 }

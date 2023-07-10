@@ -17,7 +17,8 @@ const guestsSlice = createSlice({
             
         },
         DELETEGUEST: (state, action) => {
-            state.guests.filter(guest => guest._id !== action.payload);
+            const theGuestIndex = state.guests.findIndex(g => g._id === action.payload); 
+            state.guests.splice(theGuestIndex, 1);
         }
     }
 });

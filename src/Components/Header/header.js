@@ -29,7 +29,7 @@ function Header(props) {
      'bg-transparent backdrop-blur-xl backdrop-brightness-150'];
      
     const adminButtonClasses= `h-[100%] px-[1rem] font-semibold hover:bg-darkLighterBlue hover:text-white duration-75 dark:duration-75 
-    rounded-lg ${ location.pathname.includes('adminLog') ? 'bg-darkLighterBlue text-white' : 'bg-transparent text-darkLighterBlue' }`;
+    rounded-lg ${ location.pathname.includes('adminLog') ? 'bg-darkLighterBlue text-white' : 'bg-transparent dark:text-white text-darkLighterBlue' }`;
 
     const logoutBClasses = [`absolute top-[2.5rem] left-3 bg-red-700 text-whitish rounded-lg text-[13px] px-[1rem] py-[0.3rem] flex 
     justify-start shadow-lg shadow-black hover:bg-red-500 cursor-pointer`, showLogoutB ? 'LogoutBVisible' : 'LogoutBInVisible'];
@@ -78,7 +78,7 @@ function Header(props) {
                 : null}
                 <p className='font-semibold px-[1rem] text-specialPink cursor-pointer duration-75 hover:duration-75 hover:text-darkLighterBlue
                 hover:underline'>{t('programB')}</p>
-                <button className={adminButtonClasses} onClick={() => navigate('/adminLog')}>
+                <button className={adminButtonClasses} onClick={() => { token ? navigate('/adminLog/manage') : navigate('/adminLog')}}>
                     {t('adminB')}
                 </button>
                 { token ? <div className='relative w-[3rem] min-w-[2rem] h-[3rem] min-h-[2rem] bg-gray-700 hover:bg-gray-300 rounded-full'

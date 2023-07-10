@@ -22,7 +22,7 @@ function InvitationsManagement() {
     const [name, setName] = useState('');
     const [phoneNo, setPhoneNo] = useState('');
     const [quality, setQuality] = useState('ordinary');
-    // console.log(quality);
+    // console.log(guests);
     const thePic = useRef();
 
     const [nameIsValid, setNameIsValid] = useState(false);
