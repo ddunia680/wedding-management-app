@@ -78,9 +78,36 @@ exports.getAllGuests = async (req, res) => {
 }
 
 exports.confirmGuestPresence = async (req, res) => {
+    const guestId = req.body.id;
+
+    try {
+        const guest = await Guest.findById(guestId);
+        guest.status = 'confirmed';
+        const result = await guest.save();
+        res.status(200).json({
+            message: "confirmed guest's presence",
+            guest: result
+        })
+    } catch(err) {
+        res.status(500).json({
+            message: 'something went wrong server-side'
+        })
+    }
 
 }
 
 exports.excludeGuest = async (req, res) => {
+    const guestId = req.body.id;
     
+    try {
+        const guest = await Guest.findByIdAndDelete(guestId);
+        res.status(200).json({
+            message: 'guest successfully excluded',
+            guest: guest
+        })
+    } catch(err) {
+        res.status(500).json({
+            message: 'something went wrong server-side'
+        })
+    }
 }

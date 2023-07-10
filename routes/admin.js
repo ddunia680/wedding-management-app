@@ -12,5 +12,8 @@ router.post('/addGuest', [
 
 router.get('/getAllGuests', isAuth, adminControllers.getAllGuests);
 
-router.post('/adminConfirmGuestPresence/:id', isAuth, adminControllers.confirmGuestPresence);
+router.post('/adminConfirmGuestPresence', isAuth, adminControllers.confirmGuestPresence);
+
+router.post('/excludeGuest', isAuth, adminControllers.excludeGuest);
+
 module.exports = router;
