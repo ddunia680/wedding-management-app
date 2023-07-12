@@ -10,6 +10,13 @@ exports.confirmPresence = async (req, res) => {
                 message: 'presence already confirmed!'
             })
         }
+
+        if(guest.status === 'declined') {
+            return res.status(401).json({
+                message: 'invitation already declined!'
+            })
+        }
+
         guest.status = 'confirmed';
         const result = await guest.save();
         res.status(200).json({
@@ -33,6 +40,12 @@ exports.declinePresence = async (req, res) => {
                 message: 'presence already confirmed!'
             })
         }
+
+        if(guest.status === 'declined') {
+            return res.status(401).json({
+                message: 'invitation already declined!'
+            })
+        }
         guest.status = 'excluded';
         const result = await guest.save();
         res.status(200).json({
@@ -52,7 +65,7 @@ exports.pullGuestInfo = async (req, res) => {
     try {
         const guest = await Guest.findById(guestId);
         res.status(200).json({
-            message: 'successfully found guest',
+            message: `welcome dear ${guest.name}`,
             guest: guest
         })
     } catch(err) {
