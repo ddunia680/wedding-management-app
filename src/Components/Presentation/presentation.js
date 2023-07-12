@@ -14,7 +14,7 @@ function Presentation(props) {
     const dispatch = useDispatch();
     const [IconfPresence, setConfPresence] = useState(false);
     const theParam = location.pathname.slice(1, 12);
-    const [theUserId, setTheUserID] = useState('');
+    const [theUser, setTheUser] = useState('');
     const { t } = useTranslation();
 
     const changeLanguage = (e) => {
@@ -26,7 +26,7 @@ function Presentation(props) {
             axios.get(`${process.env.REACT_APP_BACKEND_URL}guestInfo/${theParam}`)
             .then(res => {
                 dispatch(ADDANOTIFICATION({notif: true, isError: false, notifMessage: res.data.message}));
-                setTheUserID(res.data.guest);
+                setTheUser(res.data.guest);
             })
             .catch(err => {
                 dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: "Couldn't find guest"}));
@@ -47,7 +47,12 @@ function Presentation(props) {
             dark:backdrop-brightness-150 backdrop-brightness-75 px-[1rem] rounded-bl-xl rounded-br-xl'>{t('wedDate')}</h4>
 
             <button className='confirmB relative bg-marOrange w-[80%] md:w-auto text-white dark:text-darkLighterBlue mt-[1rem] p-[1rem] 
-            rounded-lg shadow-lg shadow-black' onKeyDown={() => console.log('touch button')} onClick={() => setConfPresence(true)}>
+            rounded-lg shadow-lg shadow-black' onKeyDown={() => console.log('touch button')} onClick={() => { 
+                theUser ? 
+                setConfPresence(true) 
+                : 
+                dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: "Your are not a guest!"}));
+                }}>
                 {t('confirmPresence')}
             </button>
 
@@ -58,7 +63,7 @@ function Presentation(props) {
                     <option value='fr'>French</option>
             </select>
             <CSSTransition in={IconfPresence} classNames='alert' timeout={1000} mountOnEnter unmountOnExit >
-                <ConfPresence IconfPresence={IconfPresence} setConfPresence={setConfPresence} guestId={theUserId}/>
+                <ConfPresence IconfPresence={IconfPresence} setConfPresence={setConfPresence} guest={theUser}/>
             </CSSTransition>            
         </div>
     );

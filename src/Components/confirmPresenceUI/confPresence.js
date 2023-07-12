@@ -5,23 +5,49 @@ import { useTranslation } from 'react-i18next';
 import { FaceSmileIcon, FaceFrownIcon } from '@heroicons/react/24/solid';
 
 import './confPresence.css';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { ADDANOTIFICATION } from '../../store/notifHandler';
 
 function ConfPresence(props) {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
     const [acceptLoading, setAcceptLoading] = useState(false);
     const [declineLoading, setSDeclinetLoading] = useState(false);
-    const name = 'Benjamin Saul'
+    const name = props.guest.name;
 
     const acceptBIconClasses = [acceptLoading ? 'w-[2rem]' : 'w-[1.4rem]', 'duration-75'];
     const declineBIconClasses = [declineLoading ? 'w-[2rem]' : 'w-[1.4rem]', 'duration-75'];
-
+ 
     const ConfirmInvite = () => {
         setAcceptLoading(true);
+
+        try{
+            const theResponse = axios.post(`${process.env.REACT_APP_BACKEND_URL}confirmPresence/${props.guest._id}`);
+            setAcceptLoading(false);
+            props.setConfPresence(false);
+            dispatch(ADDANOTIFICATION({notif: true, isError: false, notifMessage: theResponse.data.message}));
+        } catch(err) {
+            setAcceptLoading(false);
+            props.setConfPresence(false);
+            dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));
+        }
     }
 
     
     const declineInvite = () => {
         setSDeclinetLoading(true);
+
+        try{
+            const theResponse = axios.post(`${process.env.REACT_APP_BACKEND_URL}declinePresence/${props.guest._id}`);
+            setSDeclinetLoading(false);
+            props.setConfPresence(false);
+            dispatch(ADDANOTIFICATION({notif: true, isError: false, notifMessage: theResponse.data.message}));
+        } catch(err) {
+            props.setConfPresence(false);
+            setSDeclinetLoading(false);
+            dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));
+        }
     }
 
     return (

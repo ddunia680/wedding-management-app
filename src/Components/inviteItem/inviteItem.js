@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { UserCircleIcon, StarIcon, CheckBadgeIcon, ClockIcon } from '@heroicons/react/24/solid';
+import { UserCircleIcon, StarIcon, CheckBadgeIcon, ClockIcon, HandRaisedIcon } from '@heroicons/react/24/solid';
 import { EllipsisHorizontalIcon} from '@heroicons/react/24/outline';
 // import pic from  '../../images/wedPic.png';
 
@@ -125,8 +125,10 @@ function InviteItem(props) {
                 {props.guest.level !== 'ordinary' && props.guest.level !== 'vip' ? <StarIcon className='w-[1rem] md:w-[2rem] text-yellow-500 shadow-lg shadow-black'/> : null }
             </div>
             <p className='text-[13px] md:text-[15px] flex justify-start items-center space-x-2'>
-                { status === 'pending' ? t('stillPending') : t('confirmedInvite')} 
-                { status === 'confirmed' ? <CheckBadgeIcon className='w-[1.2rem] md:w-[1.5rem] text-yellow-600'/> : <ClockIcon className='w-[1.2rem] md:w-[1.5rem] text-purple-500'/>}
+                { status === 'pending' ? t('stillPending'): status === 'confirmed' ? t('confirmedInvite') : t('declined')} 
+                { status === 'confirmed' ? <CheckBadgeIcon className='w-[1.2rem] md:w-[1.5rem] text-yellow-600'/>: status === 'pending' ? 
+                <ClockIcon className='w-[1.2rem] md:w-[1.5rem] text-purple-500'/> : 
+                <HandRaisedIcon className='w-[1.2rem] md:w-[1.5rem] text-red-300'/>}
                 </p>
             { hoveredOn ? <EllipsisHorizontalIcon className='absolute top-1 right-1 w-[1.3rem] md:w-[2rem] dark:text-whitish 
             text-darkLighterBlue rounded-full hover:bg-pink-400 dark:hover:bg-blue-900 cursor-pointer' title='action?' onClick={() => setShowControl(!showControl)}/> : null}

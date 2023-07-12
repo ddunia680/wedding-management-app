@@ -20,6 +20,7 @@ const transition = {
     inviteBText: 'Inviter',
     confirmedInvite: 'Confirmé',
     stillPending: 'En attente',
+    declined: 'Declinée',
     confirmFromEllipsis: 'Confirmer présence',
     excludeFromEllispsis: 'Exclure'
 }
