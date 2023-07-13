@@ -4,7 +4,7 @@ require('dotenv').config();
 const cors = require('cors');
 const multer = require('multer');
 // const bcrypt = require('bcrypt');
-// const Admin = require('./models/admin');
+const Admin = require('./models/admin');
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const guestRoutes = require('./routes/guest');
@@ -61,4 +61,32 @@ mongoose.connect(process.env.MONGODB_URI)
     const server = app.listen(PORT, () => {
         console.log('app is running on port '+ PORT);
     })
+
+    const io = require('./utilities/socket').init(server);
+    io.on('connection', socket => {
+        console.log(`client ${socket.id} is connected`);
+
+        socket.on('adminJoin', adminID => {
+            socket.join(adminID);
+            console.log(`admin ${socket.id} joined room ${adminID}`);
+        })
+    
+        socket.on('confirmedPresence', guest => {
+            Admin.find().then(admins => {
+                admins.forEach(adm => {
+                    console.log(adm._id.valueOf());
+                    socket.to(adm._id.valueOf()).emit('gotConfirmation', guest);
+                })
+            })
+        });
+
+        socket.on('declinedInvite', guest => {
+            Admin.find().then(admins => {
+                admins.forEach(adm => {
+                    socket.to(adm._id.valueOf()).emit('gotRejection', guest);
+                })
+            })
+        })
+    });
+
 });

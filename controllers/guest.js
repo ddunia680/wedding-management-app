@@ -2,7 +2,7 @@ const Guest = require('../models/guest');
 
 exports.confirmPresence = async (req, res) => {
     const guestId = req.params.id;
-
+    
     try {
         const guest = await Guest.findById(guestId);
         if(guest.status === 'confirmed') {
@@ -24,6 +24,7 @@ exports.confirmPresence = async (req, res) => {
             guest: result
         })
     } catch(err) {
+        console.log(err);
         res.status(500).json({
             message: 'something went wrong server-side'
         })
@@ -61,6 +62,7 @@ exports.declinePresence = async (req, res) => {
 
 exports.pullGuestInfo = async (req, res) => {
     const guestId = req.params.id;
+    // console.log(guestId);
 
     try {
         const guest = await Guest.findById(guestId);
@@ -69,6 +71,7 @@ exports.pullGuestInfo = async (req, res) => {
             guest: guest
         })
     } catch(err) {
+        // console.log(err);
         res.status(500).json({
             message: 'something went wrong server-side'
         })
