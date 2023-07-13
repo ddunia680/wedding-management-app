@@ -12,10 +12,13 @@ import InvitationsManagement from './Containers/InvitatationsManagement/invitati
 import { useDispatch, useSelector } from 'react-redux';
 import { KEPTAUTHENTICATED, LOGOUT } from './store/authenticate';
 import { CSSTransition } from 'react-transition-group';
+import { FaceFrownIcon, FaceSmileIcon } from '@heroicons/react/24/outline';
 
 import wedding from './images/wedding.jpg';
 import NotifComponent from './UI/notifComponent/notifComponent';
 import { HIDENOTIFVIEW } from './store/notifHandler';
+import io from './utility/socket';
+import sendNotif from './utility/sendNotif';
 
 const translationsEn = enTranslation;
 const translationsFr = frTranslation;
@@ -41,6 +44,31 @@ function App() {
   const storedToken = localStorage.getItem('token');
 
   useEffect(() => {
+    if(io.getIO()) {
+      io.getIO().on('gotConfirmation', guest => {
+        console.log('got a confirmation!');
+        const data = {
+          title: 'Invitation accepted',
+          body: `${guest.name} has confirmed their presence ${<FaceSmileIcon className='w-[5px] text-yellow-600' />}`,
+          icon: guest.profileUrl ? guest.profileUrl : null
+        }
+        sendNotif(data);
+      });
+
+      io.getIO().on('gotRejection', guest => {
+        console.log('got rejection');
+        const data = {
+          title: 'Invitation rejected',
+          body: `${guest.name} won't be attending ${<FaceFrownIcon className='w-[5px] text-yellow-600' />}`,
+          icon: guest.profileUrl ? guest.profileUrl : null
+        }
+        sendNotif(data);
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if(aNotification) {
       setTimeout(() => {
         dispatch(HIDENOTIFVIEW());
@@ -51,7 +79,10 @@ function App() {
 
   useEffect(() => {
     if(new Date(expiryDate).getTime() <= new Date().getTime()) {
-      if(location.pathname !== '/' && location.pathname !== '/adminLog') {
+      if(location.pathname.length === 25) {
+        navigate('/');
+      }
+      else if(location.pathname !== '/' && location.pathname !== '/adminLog') {
         navigate('/adminLog');
       } else {
         navigate('/');

@@ -8,6 +8,7 @@ import './confPresence.css';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { ADDANOTIFICATION } from '../../store/notifHandler';
+import io from '../../utility/socket';
 
 function ConfPresence(props) {
     const { t } = useTranslation();
@@ -22,32 +23,40 @@ function ConfPresence(props) {
     const ConfirmInvite = () => {
         setAcceptLoading(true);
 
-        try{
-            const theResponse = axios.post(`${process.env.REACT_APP_BACKEND_URL}confirmPresence/${props.guest._id}`);
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/confirmPresence/${props.guest._id}`)
+        .then(theResponse => {
             setAcceptLoading(false);
             props.setConfPresence(false);
             dispatch(ADDANOTIFICATION({notif: true, isError: false, notifMessage: theResponse.data.message}));
-        } catch(err) {
+            if(io.getIO()) {
+                io.getIO().emit('confirmedPresence', theResponse.data.guest);
+            }
+        })
+        .catch(err => {
             setAcceptLoading(false);
             props.setConfPresence(false);
             dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));
-        }
+        })
     }
 
     
     const declineInvite = () => {
         setSDeclinetLoading(true);
 
-        try{
-            const theResponse = axios.post(`${process.env.REACT_APP_BACKEND_URL}declinePresence/${props.guest._id}`);
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/declinePresence/${props.guest._id}`)
+        .then(theResponse => {
             setSDeclinetLoading(false);
             props.setConfPresence(false);
             dispatch(ADDANOTIFICATION({notif: true, isError: false, notifMessage: theResponse.data.message}));
-        } catch(err) {
+            if(io.getIO()) {
+                io.getIO().emit('declinedInvite', theResponse.data.guest);
+            }
+        }) 
+        .catch(err => {
             props.setConfPresence(false);
             setSDeclinetLoading(false);
             dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));
-        }
+        })
     }
 
     return (

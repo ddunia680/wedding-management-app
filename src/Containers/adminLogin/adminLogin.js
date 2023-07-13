@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AUTHENTICATE } from '../../store/authenticate';
 import { ADDANOTIFICATION } from '../../store/notifHandler';
+import io from '../../utility/socket';
 
 function AdminLogin(props) {
     const { t } = useTranslation();
@@ -36,6 +37,12 @@ function AdminLogin(props) {
 
     const passwordInptClasses = [`peer h-10 w-[18rem] md:w-[20rem] border-b-2 bg-transparent text-gray-900 dark:text-specialGray 
     placeholder-transparent focus:outline-none`, !passwordIsValid && passwordTouched ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-sky-500']
+
+    useEffect(() => {
+        if(io.getIO()) {
+            
+        }
+    }, []);
 
     useEffect(() => {
         setFormIsValid(emailTouched && emailIsValid && passwordTouched && passwordIsValid);
@@ -66,7 +73,7 @@ function AdminLogin(props) {
             password: password
         }
         try{
-            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}auth/signin`, data);
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/signin`, data);
             setLoading(false);
             
             dispatch(AUTHENTICATE({token: response.data.token, email: response.data.email}));
@@ -77,8 +84,10 @@ function AdminLogin(props) {
                 new Date().getTime() + remainingMilliseconds
             );
             localStorage.setItem('expiryDate', expiryDate.toISOString());
-            navigate('manage');
             dispatch(ADDANOTIFICATION({notif: true, isError: false, notifMessage: `Welcome dear ${response.data.email}`}));
+            const socket = io.init(process.env.REACT_APP_BACKEND_URL);
+            socket.emit('adminJoin', response.data.id);
+            navigate('manage');
         } catch(err) {
             setLoading(false);
             if(err.response.data.message.includes('email')) {

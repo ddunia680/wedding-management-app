@@ -60,7 +60,7 @@ function InvitationsManagement() {
     useEffect(() => {
         if(token) {
             setGuestsPullLoading(true);
-            axios.get(`${process.env.REACT_APP_BACKEND_URL}getAllGuests`, {
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/getAllGuests`, {
                 headers: {
                     Authorization: 'Bearer '+ token
                 }
@@ -117,7 +117,7 @@ function InvitationsManagement() {
         if(profImage) { data.append('photos', profImage) };
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}addGuest`, data, {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/addGuest`, data, {
                 headers: {
                     Authorization: 'Bearer '+ token
                 }

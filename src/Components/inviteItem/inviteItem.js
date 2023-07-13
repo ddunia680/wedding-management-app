@@ -74,7 +74,7 @@ function InviteItem(props) {
     const confirmPresence = async () => {
         setConfLoading(true);
         try {
-            const theResponse = await axios.post(`${process.env.REACT_APP_BACKEND_URL}adminConfirmGuestPresence`, { id: props.guest._id}, {
+            const theResponse = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/adminConfirmGuestPresence`, { id: props.guest._id}, {
                 headers: {
                     Authorization: 'Bearer '+ token
                 }
@@ -93,7 +93,7 @@ function InviteItem(props) {
     const excludeGuest = async () => {
         setExcludeLoading(true);
         try {
-            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}excludeGuest`, {id: props.guest._id}, {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/excludeGuest`, {id: props.guest._id}, {
                 headers: {
                     Authorization: 'Bearer '+ token
                 }

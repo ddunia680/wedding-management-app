@@ -81,7 +81,7 @@ function Header(props) {
                 <button className={adminButtonClasses} onClick={() => { token ? navigate('/adminLog/manage') : navigate('/adminLog')}}>
                     {t('adminB')}
                 </button>
-                { token ? <div className='relative w-[3rem] min-w-[2rem] h-[3rem] min-h-[2rem] bg-gray-700 hover:bg-gray-300 rounded-full'
+                { token ? <div className='relative w-[3rem] min-w-[2rem] h-[3rem] min-h-[2rem] hover:bg-gray-700 bg-gray-300 rounded-full'
                  title={email} onClick={() => setShowLogoutB(!showLogoutB)}>
                     <UserCircleIcon className='w-[3rem]'/>
                     <CSSTransition in={showLogoutB} timeout={300} mountOnEnter unmountOnExit>
