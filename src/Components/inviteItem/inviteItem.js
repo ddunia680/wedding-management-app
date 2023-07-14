@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADDANOTIFICATION } from '../../store/notifHandler';
 import { DELETEGUEST } from '../../store/guests';
+import io from '../../utility/socket';
 
 function InviteItem(props) {
     const { t } = useTranslation();
@@ -26,14 +27,32 @@ function InviteItem(props) {
     const [deleting, setDeleting] = useState(false);
     const theControl = useRef();
     const theRefPoint = useRef();
-    // console.log(status);
+    // console.log(controlIsIntersecting + ' is the controller');
+    // console.log(refIsIntersecting + ' is the refDiv');
+
+    useEffect(() => {
+        if(io.getIO()) {
+          io.getIO().on('gotConfirmation', guest => {
+            if(guest._id === props.guest._id) {
+                setStatus('confirmed')
+            }
+          });
+    
+          io.getIO().on('gotRejection', guest => {
+            if(guest._id === props.guest._id) {
+                setStatus('')
+            }
+          });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, []);
 
     const inviteItemClasses = [`relative w-[100%] py-[0.5rem] md:py-[1rem] dark:text-whitish text-darkLighterBlue flex justify-evenly items-center px-[2rem] 
     shadow-2xl bg-pink-300 dark:bg-gradient-to-br dark:from-lightestDBlue dark:to-lightestDBlue rounded-xl z-0`, deleting? 'unbuilt' : 'invBuilt'];
     const profPicClasses = ['w-[2rem] md:w-[3rem] text-pink-900 hover:scale-110 dark:text-blue-500 rounded-full shadow-xl shadow-black', hoveredOn ? 'picVisible' : 'picInvisible'];
     const profActualClasses = ['w-[2rem] h-[2rem] md:w-[3rem] md:h-[3rem] bg-yellow-400 hover:scale-110  shadow-xl shadow-black rounded-full overflow-hidden', hoveredOn ? 'picVisible' : 'picInvisible'];
-    const divOnEllipsisShow = [`absolute w-[10rem] right-0 backdrop-blur-xl backdrop-brightness-75 text-darkLighterBlue dark:text-whitish flex flex-col 
-    justify-start items-start rounded-lg overflow-hidden shadow-md shadow-black text-[13px] z-100`, showControl ? controlDown ? 'controlVisibleFDown top-[2rem]' : 'controlVisible -top-[2.5rem]' : controlDown ? 'controlInVisibleFDown' : 'controlHidden'];
+    const divOnEllipsisShow = [`absolute w-[7rem] md:w-[10rem] right-0 backdrop-blur-xl backdrop-brightness-75 text-darkLighterBlue dark:text-whitish flex flex-col 
+    justify-start items-start rounded-lg overflow-hidden shadow-md shadow-black text-[11px] md:text-[13px] z-100`, showControl ? controlDown ? 'controlVisibleFDown -top-[0.2rem] md:top-[2rem]' : 'controlVisible -top-[0.2rem] md:-top-[2rem]' : controlDown ? 'controlInVisibleFDown' : 'controlHidden'];
     
     useEffect(() => {
         if(showControl) {
@@ -111,27 +130,33 @@ function InviteItem(props) {
 
 
     return (
-        <div className={inviteItemClasses.join(' ')}
-        onMouseEnter={() => setHoveredOn(true)} onMouseLeave={() => setHoveredOn(false)} onClick={() => { showControl && setShowControl(false) }}>
-            <div className='absolute top-[1.5rem] md:-top-[2rem] left-0' ref={theRefPoint}></div>
+        <div className={inviteItemClasses.join(' ')} onMouseEnter={() => setHoveredOn(true)} onMouseLeave={() => setHoveredOn(false)} 
+        onClick={() => { showControl && setShowControl(false) }}>
+            <div className='absolute -top-[1rem] md:-top-[2rem] left-0' ref={theRefPoint}></div>
+            {/* profile */}
             { !props.guest.profileUrl ? <UserCircleIcon className={profPicClasses.join(' ')}/> :
             <div className={profActualClasses.join(' ')}>
                 <img src={props.guest.profileUrl} alt='' className='w-[100%] h-[100%] object-contain'/>
             </div>}
+            {/* Name */}
             <p className='text-[13px] md:text-[15px] w-[35%] truncate text-ellipsis text-center' title={props.guest.name}>{props.guest.name}</p>
+            {/* level */}
             <div className='flex justify-center items-center space-x-0 md:space-x-2 w-[20%]' title={props.guest.level}>
                 <StarIcon className='w-[1rem] md:w-[2rem] text-yellow-500 shadow-lg shadow-black'/>
                 { props.guest.level !== 'ordinary' ? <StarIcon className='w-[1rem] md:w-[2rem] text-yellow-500 shadow-lg shadow-black'/> : null}
                 {props.guest.level !== 'ordinary' && props.guest.level !== 'vip' ? <StarIcon className='w-[1rem] md:w-[2rem] text-yellow-500 shadow-lg shadow-black'/> : null }
             </div>
+            {/* status */}
             <p className='text-[13px] md:text-[15px] flex justify-start items-center space-x-2'>
                 { status === 'pending' ? t('stillPending'): status === 'confirmed' ? t('confirmedInvite') : t('declined')} 
                 { status === 'confirmed' ? <CheckBadgeIcon className='w-[1.2rem] md:w-[1.5rem] text-yellow-600'/>: status === 'pending' ? 
                 <ClockIcon className='w-[1.2rem] md:w-[1.5rem] text-purple-500'/> : 
-                <HandRaisedIcon className='w-[1.2rem] md:w-[1.5rem] text-red-300'/>}
+                <HandRaisedIcon className='w-[1.2rem] md:w-[1.5rem] text-red-500 dark:text-red-300'/>}
                 </p>
+                {/* ellipsis */}
             { hoveredOn ? <EllipsisHorizontalIcon className='absolute top-1 right-1 w-[1.3rem] md:w-[2rem] dark:text-whitish 
             text-darkLighterBlue rounded-full hover:bg-pink-400 dark:hover:bg-blue-900 cursor-pointer' title='action?' onClick={() => setShowControl(!showControl)}/> : null}
+            {/* the control */}
             <CSSTransition  in={showControl} timeout={500}  mountOnEnter unmountOnExit>
                 <div className={divOnEllipsisShow.join(' ')} ref={theControl}>
                     { status === 'pending' ? <p className='w-[100%] py-[0.2rem] hover:text-whitish dark:hover:text-whitish hover:bg-black 

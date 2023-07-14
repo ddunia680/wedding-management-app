@@ -22,7 +22,18 @@ const transition = {
     stillPending: 'En attente',
     declined: 'Declinée',
     confirmFromEllipsis: 'Confirmer présence',
-    excludeFromEllispsis: 'Exclure'
+    excludeFromEllispsis: 'Exclure',
+    AllOption: 'Tous',
+    OrdinaryOption: 'Ordinaires',
+    pendingOption: 'Pendantes',
+    confirmedOption: 'Confirmées',
+    declinedOption: 'Declinées',
+    inviteP1: "Cher <b>{{name}}</b>, vous etes invité à réhausser par votre presence au cérémonies de Mariage de <b>Mr. Ben Salman</b> et <b>Ms Aida Suzan</b> qui aura lieu demain.",
+    inviteP2: "Les activités commencerons par une Messe à <b>9h à la paroisse de Konge</b> puis suivra dans la soirée à <b>19h le bal des Mariés</b> au quel le <b>Barre Code</b> à coté (en dessous) sera utiliser pour vous identifier",
+    inviteP3: "Vous etes les bienvenus!",
+    inviteP4: "Le comité",
+    QRMessage: 'Enregistrez cet Barre Code car il vous sera important pour participer à la cérémonie',
+    QRErrorM: 'identité incorrecte'
 }
 
 export default transition;

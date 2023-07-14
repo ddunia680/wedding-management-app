@@ -19,6 +19,7 @@ import NotifComponent from './UI/notifComponent/notifComponent';
 import { HIDENOTIFVIEW } from './store/notifHandler';
 import io from './utility/socket';
 import sendNotif from './utility/sendNotif';
+import QRCodeDisplay from './Components/QRCodeDisplay/QRCodeDisplay';
 
 const translationsEn = enTranslation;
 const translationsFr = frTranslation;
@@ -44,9 +45,16 @@ function App() {
   const storedToken = localStorage.getItem('token');
 
   useEffect(() => {
+    if(!('Notification' in window)) {
+        console.log("browser doesn't support notifications");
+    } else {
+        Notification.requestPermission()
+    }
+  }, []);
+
+  useEffect(() => {
     if(io.getIO()) {
       io.getIO().on('gotConfirmation', guest => {
-        console.log('got a confirmation!');
         const data = {
           title: 'Invitation accepted',
           body: `${guest.name} has confirmed their presence ${<FaceSmileIcon className='w-[5px] text-yellow-600' />}`,
@@ -56,7 +64,6 @@ function App() {
       });
 
       io.getIO().on('gotRejection', guest => {
-        console.log('got rejection');
         const data = {
           title: 'Invitation rejected',
           body: `${guest.name} won't be attending ${<FaceFrownIcon className='w-[5px] text-yellow-600' />}`,
@@ -95,6 +102,8 @@ function App() {
       console.log('admin auth expires in '+ newTimeout );
       dispatch(KEPTAUTHENTICATED());
       operateLogout(newTimeout);
+      const socket = io.init(process.env.REACT_APP_BACKEND_URL);
+      socket.emit('adminJoin', localStorage.getItem('id'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -123,6 +132,7 @@ function App() {
             <Route index element={<AdminLogin/>}/>
             { token ? <Route path='manage' element={ <InvitationsManagement/>} /> : null}
           </Route>
+          <Route path='/myQRCode/:id' element={<QRCodeDisplay/>}/>
           <Route path='*' element={<p>Page not found</p>} />
         </Routes>
         <CSSTransition in={aNotification} timeout={300} mountOnEnter unmountOnExit>

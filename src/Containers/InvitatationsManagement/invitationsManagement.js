@@ -22,7 +22,7 @@ function InvitationsManagement() {
     const [name, setName] = useState('');
     const [phoneNo, setPhoneNo] = useState('');
     const [quality, setQuality] = useState('ordinary');
-    // console.log(guests);
+    const [category, setCategory] = useState('all');
     const thePic = useRef();
 
     const [nameIsValid, setNameIsValid] = useState(false);
@@ -59,23 +59,52 @@ function InvitationsManagement() {
 
     useEffect(() => {
         if(token) {
-            setGuestsPullLoading(true);
-            axios.get(`${process.env.REACT_APP_BACKEND_URL}/getAllGuests`, {
-                headers: {
-                    Authorization: 'Bearer '+ token
-                }
-            })
-            .then(response => {
-                setGuestsPullLoading(false);
-                dispatch(PULLEDGUESTSAVE(response.data.guests));
-            })
-            .catch(err => {
-                setGuestsPullLoading(false);
-                dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));
-            })
+            if(category === 'all') {
+                setGuestsPullLoading(true);
+                axios.get(`${process.env.REACT_APP_BACKEND_URL}/getAllGuests`, { headers: { Authorization: 'Bearer '+ token }})
+                .then(response => { setGuestsPullLoading(false); dispatch(PULLEDGUESTSAVE(response.data.guests));})
+                .catch(err => { setGuestsPullLoading(false);
+                    dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));})
+            } else if(category === 'ordinary') {
+                setGuestsPullLoading(true);
+                axios.get(`${process.env.REACT_APP_BACKEND_URL}/getOrdinaryGuests`, { headers: { Authorization: 'Bearer '+ token }})
+                .then(response => { setGuestsPullLoading(false); dispatch(PULLEDGUESTSAVE(response.data.guests));})
+                .catch(err => { setGuestsPullLoading(false);
+                    dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));})
+            }else if(category === 'vip') {
+                setGuestsPullLoading(true);
+                axios.get(`${process.env.REACT_APP_BACKEND_URL}/getVipGuests`, { headers: { Authorization: 'Bearer '+ token }})
+                .then(response => { setGuestsPullLoading(false); dispatch(PULLEDGUESTSAVE(response.data.guests));})
+                .catch(err => { setGuestsPullLoading(false);
+                    dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));})
+            }else if(category === 'vvip') {
+                setGuestsPullLoading(true);
+                axios.get(`${process.env.REACT_APP_BACKEND_URL}/getVvipGuests`, { headers: { Authorization: 'Bearer '+ token }})
+                .then(response => { setGuestsPullLoading(false); dispatch(PULLEDGUESTSAVE(response.data.guests));})
+                .catch(err => { setGuestsPullLoading(false);
+                    dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));})
+            }else if(category === 'pending') {
+                setGuestsPullLoading(true);
+                axios.get(`${process.env.REACT_APP_BACKEND_URL}/getPendingInviteGuests`, { headers: { Authorization: 'Bearer '+ token }})
+                .then(response => { setGuestsPullLoading(false); dispatch(PULLEDGUESTSAVE(response.data.guests));})
+                .catch(err => { setGuestsPullLoading(false);
+                    dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));})
+            }else if(category === 'confirmed') {
+                setGuestsPullLoading(true);
+                axios.get(`${process.env.REACT_APP_BACKEND_URL}/getConfirmedInviteGuests`, { headers: { Authorization: 'Bearer '+ token }})
+                .then(response => { setGuestsPullLoading(false); dispatch(PULLEDGUESTSAVE(response.data.guests));})
+                .catch(err => { setGuestsPullLoading(false);
+                    dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));})
+            }else if(category === 'declined') {
+                setGuestsPullLoading(true);
+                axios.get(`${process.env.REACT_APP_BACKEND_URL}/getDeclinedInviteGuests`, { headers: { Authorization: 'Bearer '+ token }})
+                .then(response => { setGuestsPullLoading(false); dispatch(PULLEDGUESTSAVE(response.data.guests));})
+                .catch(err => { setGuestsPullLoading(false);
+                    dispatch(ADDANOTIFICATION({notif: true, isError: true, notifMessage: err.response.data.message}));})
+            }
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [category]);
 
     let theGuests;
     if(guestsPullLoading) {
@@ -207,11 +236,23 @@ function InvitationsManagement() {
                         </button>
                     </div>
                 </div>
-                <div className='theGuests w-[90%] md:w-[70%] h-[45%] mx-auto flex flex-col space-y-1 justify-start items-start overflow-y-scroll z-10'>
+                <select className='absolute bg-darkLighterBlue dark:bg-black top-[40%] right-4 w-[6rem] px-[0.5rem] text-white text-[13px] 
+                    duration-75 hover:bg-blue-900 hover:cursor-pointer outline-none rounded-xl' onChange={e => setCategory(e.target.value)}>
+                        <option value='all'>{t('AllOption')}</option>
+                        <option value='ordinary'>{t('OrdinaryOption')}</option>
+                        <option value='vip'>VIP</option>
+                        <option value='vvip'>VVIP</option>
+                        <option value='pending'>{t('pendingOption')}</option>
+                        <option value='confirmed'>{t('confirmedOption')}</option>
+                        <option value='declined'>{t('declinedOption')}</option>
+                </select>
+                <div className='theGuests mt-[1.2rem] md:mt-0 w-[90%] md:w-[70%] h-[45%] mx-auto flex flex-col space-y-1 justify-start 
+                items-start overflow-y-scroll z-10'>
                     {theGuests}
                 </div>
             </div>
-            <p className='absolute bottom-1 left-[30%] md:left-[40%] text-[12px] md:text-[13px] text-slate-700'>wedding planning app &copy; 2023</p>
+            <p className='absolute bottom-[1px] left-[30%] md:left-[40%] text-[12px] md:text-[13px] text-slate-700'>
+                wedding planning app &copy; 2023</p>
         </div>
     );
 }
