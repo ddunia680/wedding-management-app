@@ -12,6 +12,18 @@ router.post('/addGuest', [
 
 router.get('/getAllGuests', isAuth, adminControllers.getAllGuests);
 
+router.get('/getOrdinaryGuests', isAuth, adminControllers.getOrdinaryGuests);
+
+router.get('/getVipGuests', isAuth, adminControllers.getVipGuests);
+
+router.get('/getVvipGuests', isAuth, adminControllers.getVvipGuests);
+
+router.get('/getPendingInviteGuests', isAuth, adminControllers.getPendingInviteGuests);
+
+router.get('/getConfirmedInviteGuests', isAuth, adminControllers.getConfirmedInviteGuests);
+
+router.get('/getDeclinedInviteGuests', isAuth, adminControllers.getDeclinedInviteGuests);
+
 router.post('/adminConfirmGuestPresence', isAuth, adminControllers.confirmGuestPresence);
 
 router.post('/excludeGuest', isAuth, adminControllers.excludeGuest);

@@ -9,4 +9,6 @@ router.post('/confirmPresence/:id', guestControllers.confirmPresence);
 
 router.post('/declinePresence/:id', guestControllers.declinePresence);
 
+router.get('/getQREncryptionString/:id', guestControllers.getQRString);
+
 module.exports = router;

@@ -77,6 +77,90 @@ exports.getAllGuests = async (req, res) => {
     }
 }
 
+exports.getOrdinaryGuests = async (req, res) => {
+    try {
+        const guests = await Guest.find({level: 'ordinary'});
+        res.status(200).json({
+            message: 'success',
+            guests: guests
+        })
+    } catch(err) {
+        res.status(500).json({
+            message: 'something went wrong server-side'
+        })
+    }
+}
+
+exports.getVipGuests = async (req, res) => {
+    try {
+        const guests = await Guest.find({level: 'vip'});
+        res.status(200).json({
+            message: 'success',
+            guests: guests
+        })
+    } catch(err) {
+        res.status(500).json({
+            message: 'something went wrong server-side'
+        })
+    }
+}
+
+exports.getVvipGuests = async (req, res) => {
+    try {
+        const guests = await Guest.find({level: 'vvip'});
+        res.status(200).json({
+            message: 'success',
+            guests: guests
+        })
+    } catch(err) {
+        res.status(500).json({
+            message: 'something went wrong server-side'
+        })
+    }
+}
+
+exports.getPendingInviteGuests = async (req, res) => {
+    try {
+        const guests = await Guest.find({status: 'pending'});
+        res.status(200).json({
+            message: 'success',
+            guests: guests
+        })
+    } catch(err) {
+        res.status(500).json({
+            message: 'something went wrong server-side'
+        })
+    }
+}
+
+exports.getConfirmedInviteGuests = async (req, res) => {
+    try {
+        const guests = await Guest.find({status: 'confirmed'});
+        res.status(200).json({
+            message: 'success',
+            guests: guests
+        })
+    } catch(err) {
+        res.status(500).json({
+            message: 'something went wrong server-side'
+        })
+    }
+}
+
+exports.getDeclinedInviteGuests = async (req, res) => {
+    try {
+        const guests = await Guest.find({status: 'excluded'});
+        res.status(200).json({
+            message: 'success',
+            guests: guests
+        })
+    } catch(err) {
+        res.status(500).json({
+            message: 'something went wrong server-side'
+        })
+    }
+}
+
 exports.confirmGuestPresence = async (req, res) => {
     const guestId = req.body.id;
 
