@@ -20,6 +20,7 @@ import { HIDENOTIFVIEW } from './store/notifHandler';
 import io from './utility/socket';
 import sendNotif from './utility/sendNotif';
 import QRCodeDisplay from './Components/QRCodeDisplay/QRCodeDisplay';
+import ScanQRCode from './Components/scanQRCode/scanQRCode';
 
 const translationsEn = enTranslation;
 const translationsFr = frTranslation;
@@ -88,8 +89,9 @@ function App() {
     if(new Date(expiryDate).getTime() <= new Date().getTime()) {
       if(location.pathname.length === 25) {
         navigate('/');
-      }
-      else if(location.pathname !== '/' && location.pathname !== '/adminLog') {
+      } else if(location.pathname.includes('myQRCode')) {
+        navigate(`${location.pathname}`);
+      } else if(location.pathname !== '/' && location.pathname !== '/adminLog') {
         navigate('/adminLog');
       } else {
         navigate('/');
@@ -133,6 +135,7 @@ function App() {
             { token ? <Route path='manage' element={ <InvitationsManagement/>} /> : null}
           </Route>
           <Route path='/myQRCode/:id' element={<QRCodeDisplay/>}/>
+          <Route path='/scanQRCode' element={<ScanQRCode/>}/>
           <Route path='*' element={<p>Page not found</p>} />
         </Routes>
         <CSSTransition in={aNotification} timeout={300} mountOnEnter unmountOnExit>

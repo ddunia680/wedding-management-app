@@ -1,6 +1,7 @@
 const transition = {
     adminB: 'Admininstrator', 
     programB: 'Program',
+    scanQRB: 'Scan QR-Code',
     homeB: 'Home',
     logoutB: 'Logout',
     presentation1stLine: 'We welcome you to the celebration of',
@@ -29,11 +30,12 @@ const transition = {
     confirmedOption: 'Confirmed',
     declinedOption: 'Declined',
     inviteP1: "Dear <b>{{name}}</b>, You're invited to attend the wedding ceremony of <b>Mr. Ben Salman</b> And <b>Ms Aida Suzan</b> which will take place tomorrow.",
-    inviteP2: "The activities will start by a Wedding Mass at <b>9am in the Konge Catholic church</b> and then will follow in the evening at <b>7pm the Wedding dinner</b> which the <b>QR Code</b> in the right (or below) will be used to allow you in",
-    inviteP3: "You are very welcome",
+    inviteP2: "The activities will start by a Wedding Mass at <b>9am in the Konge Catholic church</b> and then will follow in the evening at <b>7pm the Wedding dinner</b> which the <b>QR Code</b> in the right (or below) will be used to allow you in.",
+    inviteP3: "You are very welcome...!",
     inviteP4: "The organiser",
     QRMessage: 'Save this QR Code, for it will be used to let you in',
-    QRErrorM: 'Wrong id entered'
+    QRErrorM: 'Wrong id entered',
+    QRCode_Message: 'Scan QR-Code here'
 }
 
 export default transition;

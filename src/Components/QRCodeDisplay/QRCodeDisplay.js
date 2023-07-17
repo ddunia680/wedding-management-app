@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../Header/header';
 import Lottie from 'lottie-react';
-import rings from '../../Gifs/weddingRing.json';
+import rings from '../../Gifs/wedRing.json';
 import Spinner2 from '../../utility/spinner2/spinner2';
 import { Trans, useTranslation } from 'react-i18next';
 import i18next from 'i18next';
@@ -11,6 +11,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { ADDANOTIFICATION } from '../../store/notifHandler';
 
+import './QRCodeDisplay.css';
+
 function QRCodeDisplay(props) {
     const { t } = useTranslation();
     const location = useLocation();
@@ -19,7 +21,7 @@ function QRCodeDisplay(props) {
     const theParam = location.pathname.slice(10, 40);
     const [loadingState, setLoadingState] = useState(false);
     const [QRString, setQRString] = useState('');
-    // console.log(theParam);
+    console.log(QRString);
 
     const changeLanguage = (e) => {
         i18next.changeLanguage(e.target.value);
@@ -47,7 +49,7 @@ function QRCodeDisplay(props) {
              via-gray-700 to-marOrange backdrop-blur-md dark:backdrop-brightness-150 backdrop-brightness-75 px-[1rem] py-[0.5rem] 
              md:py-[1rem] rounded-2xl'> Welcome to this Wedding!!!</h1>
              {/* invite container */}
-             <div className='w-[90%] xl:w-[70%] backdrop-blur-md dark:backdrop-brightness-75 backdrop-brightness-150 h-[70%] md:h-[67%] rounded-2xl 
+             <div className='qrCodeDisplay w-[90%] xl:w-[70%] backdrop-blur-md dark:backdrop-brightness-75 backdrop-brightness-150 h-[70%] md:h-[67%] rounded-2xl 
              flex flex-col md:flex-row space-y-[2rem] justify-between items-center p-[1rem] overflow-y-scroll'>
                 {/* Invitation text */}
                 <div className='w-[100%] md:w-[50%] bg-gradient-to-br from-marOrange to-red-600 shadow-2xl shadow-black rounded-2xl flex 

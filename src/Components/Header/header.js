@@ -74,10 +74,12 @@ function Header(props) {
             </div>
             <div className='hidden md:flex md:w-[60%] xl:w-[30%] h-[90%] justify-evenly items-center rounded-md'>
                 { location.pathname !== '/' ? <p className='font-semibold px-[1rem] text-specialPink cursor-pointer duration-75 
-                hover:duration-75 hover:text-darkLighterBlue hover:underline' onClick={() => navigate('/')}>{t('homeB')}</p> 
+                hover:duration-75 dark:hover:text-whitish hover:text-darkLighterBlue hover:underline' onClick={() => navigate('/')}>{t('homeB')}</p> 
                 : null}
-                <p className='font-semibold px-[1rem] text-specialPink cursor-pointer duration-75 hover:duration-75 hover:text-darkLighterBlue
-                hover:underline'>{t('programB')}</p>
+                <p className='font-semibold px-[1rem] text-specialPink cursor-pointer duration-75 hover:duration-75 hover:text-darkLighterBlue 
+                dark:hover:text-whitish hover:underline'>{t('programB')}</p>
+                { token ? <p className='font-semibold px-[1rem] text-specialPink cursor-pointer duration-75 hover:duration-75 hover:text-darkLighterBlue 
+                dark:hover:text-whitish hover:underline'>{t('scanQRB')}</p> : null}
                 <button className={adminButtonClasses} onClick={() => { token ? navigate('/adminLog/manage') : navigate('/adminLog')}}>
                     {t('adminB')}
                 </button>
@@ -130,6 +132,9 @@ function Header(props) {
                     </p> : null}
                     <p className=' px-[1rem] py-[0.3rem] text-[13px] text-whitish dark:text-gray-500 flex justify-start'>
                         {t('programB')} <NewspaperIcon className='w-[1rem]'/>
+                    </p>
+                    <p className=' px-[1rem] py-[0.3rem] text-[13px] text-whitish dark:text-gray-500 flex justify-start'>
+                        {t('scanQRB')} <NewspaperIcon className='w-[1rem]'/>
                     </p>
                     <p className='bg-white dark:bg-darkLighterBlue dark:text-white rounded-lg text-[13px] px-[1rem] py-[0.3rem] flex justify-start'
                     onClick={() => navigate('/adminLog')}>

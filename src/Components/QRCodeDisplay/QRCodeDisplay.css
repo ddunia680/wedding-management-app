@@ -1,0 +1,15 @@
+.qrCodeDisplay::-webkit-scrollbar {
+    width: 5px;
+}
+
+.qrCodeDisplay::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.qrCodeDisplay::-webkit-scrollbar-thumb {
+    background: #71767b;
+}
+
+.qrCodeDisplay::-webkit-scrollbar-thumb:hover {
+    background: #a9b0b4;
+}
