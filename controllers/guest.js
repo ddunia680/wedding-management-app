@@ -80,21 +80,26 @@ exports.pullGuestInfo = async (req, res) => {
 
 exports.getQRString = async (req, res) => {
     const guestId = req.params.id;
-    console.log(guestId);
+    // console.log('We got here');
 
-   Guest.find({_id: guestId, status: 'confirmed'})
+   Guest.findById(guestId)
    .then(guest => {
         if(!guest) {
-            res.status(404).json({
+            return res.status(404).json({
                 message: "This guest doesn't exist or isn't confirmed!"
             })
+        } else if(guest.status !== 'confirmed') {
+            return res.status(401).json({
+                message: "Invitation not confirmed yet or rejected!"
+            })
+            
         } else {
-            const theString = guest._id + guest.level + guest.createdAt + guest.phoneNo;
+            const theString = `${guest._id}${guest.level}${guest.createdAt}${guest.phoneNo}`;
+            console.log(guest);
             res.status(200).json({
                 string: theString
             })
-        }
-        
+        }    
    })
    .catch(err => {
         res.status(500).json({
