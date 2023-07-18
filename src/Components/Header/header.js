@@ -133,9 +133,9 @@ function Header(props) {
                     <p className=' px-[1rem] py-[0.3rem] text-[13px] text-whitish dark:text-gray-500 flex justify-start'>
                         {t('programB')} <NewspaperIcon className='w-[1rem]'/>
                     </p>
-                    <p className=' px-[1rem] py-[0.3rem] text-[13px] text-whitish dark:text-gray-500 flex justify-start'>
+                    { token ? <p className=' px-[1rem] py-[0.3rem] text-[13px] text-whitish dark:text-gray-500 flex justify-start'>
                         {t('scanQRB')} <NewspaperIcon className='w-[1rem]'/>
-                    </p>
+                    </p> : null}
                     <p className='bg-white dark:bg-darkLighterBlue dark:text-white rounded-lg text-[13px] px-[1rem] py-[0.3rem] flex justify-start'
                     onClick={() => navigate('/adminLog')}>
                         {t('adminB')} <UserIcon className='text-specialPink w-[1rem]'/>
