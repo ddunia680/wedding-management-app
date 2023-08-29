@@ -72,14 +72,14 @@ function Header(props) {
                 <p className='hidden md:block text-[17px] font-semibold text-transparent bg-clip-text bg-gradient-to-r
                  from-marOrange to-gray-700'>Invitation</p>
             </div>
-            <div className='hidden md:flex md:w-[60%] xl:w-[30%] h-[90%] justify-evenly items-center rounded-md'>
+            <div className='hidden md:flex md:w-[60%] xl:w-[50%] h-[90%] justify-evenly items-center rounded-md'>
                 { location.pathname !== '/' ? <p className='font-semibold px-[1rem] text-specialPink cursor-pointer duration-75 
                 hover:duration-75 dark:hover:text-whitish hover:text-darkLighterBlue hover:underline' onClick={() => navigate('/')}>{t('homeB')}</p> 
                 : null}
                 <p className='font-semibold px-[1rem] text-specialPink cursor-pointer duration-75 hover:duration-75 hover:text-darkLighterBlue 
                 dark:hover:text-whitish hover:underline'>{t('programB')}</p>
                 { token ? <p className='font-semibold px-[1rem] text-specialPink cursor-pointer duration-75 hover:duration-75 hover:text-darkLighterBlue 
-                dark:hover:text-whitish hover:underline'>{t('scanQRB')}</p> : null}
+                dark:hover:text-whitish hover:underline' onClick={() => {token && navigate('/scanQRCode')}}>{t('scanQRB')}</p> : null}
                 <button className={adminButtonClasses} onClick={() => { token ? navigate('/adminLog/manage') : navigate('/adminLog')}}>
                     {t('adminB')}
                 </button>

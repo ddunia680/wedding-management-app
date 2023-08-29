@@ -19,6 +19,7 @@ function AdminLogin(props) {
     const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    // console.log(password);
 
     const [emailIsValid, setEmailIsValid] = useState(false);
     const [passwordIsValid, setPasswordIsValid] = useState(false);
@@ -38,11 +39,11 @@ function AdminLogin(props) {
     const passwordInptClasses = [`peer h-10 w-[18rem] md:w-[20rem] border-b-2 bg-transparent text-gray-900 dark:text-specialGray 
     placeholder-transparent focus:outline-none`, !passwordIsValid && passwordTouched ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-sky-500']
 
-    useEffect(() => {
-        if(io.getIO()) {
+    // useEffect(() => {
+    //     if(io.getIO()) {
             
-        }
-    }, []);
+    //     }
+    // }, []);
 
     useEffect(() => {
         setFormIsValid(emailTouched && emailIsValid && passwordTouched && passwordIsValid);
