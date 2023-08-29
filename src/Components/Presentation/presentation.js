@@ -40,7 +40,7 @@ function Presentation(props) {
 
     return (
         <div className='h-[100vh] w-[100%] pt-[5rem] flex flex-col justify-center items-center'>
-            <p className='mytext text-white dark:text-black text-[25px] md:text-[30px] DancingScript font-bold backdrop-blur-md 
+            <p className='mytext text-white text-center dark:text-black text-[25px] md:text-[30px] DancingScript font-bold backdrop-blur-md 
             dark:backdrop-brightness-150 backdrop-brightness-75 px-[1rem] rounded-tl-xl rounded-tr-xl rounded-bl-xl rounded-br-xl 
             md:rounded-bl-none md:rounded-br-none'>{t('presentation1stLine')}</p>
             <h1 className='Pacifico text-[40px] md:text-[60px] text-fromBack  text-transparent bg-clip-text bg-gradient-to-r
