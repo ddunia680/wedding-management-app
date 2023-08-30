@@ -21,6 +21,9 @@ import io from './utility/socket';
 import sendNotif from './utility/sendNotif';
 import QRCodeDisplay from './Components/QRCodeDisplay/QRCodeDisplay';
 import ScanQRCode from './Components/scanQRCode/scanQRCode';
+import SendInviteControl from './Components/sendInviteControl/sendInviteControl';
+import { SHOWINVITEPOPUP } from './store/adminUI';
+import axios from 'axios';
 
 const translationsEn = enTranslation;
 const translationsFr = frTranslation;
@@ -44,7 +47,8 @@ function App() {
   const aNotification = useSelector(state => state.notifHandler.aNotification);
   const expiryDate = localStorage.getItem('expiryDate');
   const storedToken = localStorage.getItem('token');
-
+  const showInviteSendPopup = useSelector(state => state.adminUI.showInviteSendPopup);
+//  console.log(new Date().getMonth());
   useEffect(() => {
     if(!('Notification' in window)) {
         console.log("browser doesn't support notifications");
@@ -52,6 +56,18 @@ function App() {
         Notification.requestPermission()
     }
   }, []);
+
+  useEffect(() => {
+    if(token && new Date().getDate() === 29 && new Date().getMonth() === 7) {
+      axios.get(`${process.env.REACT_APP_BACKEND_URL}/checkQRStatus`, { headers: { Authorization: 'Bearer '+ token }})
+      .then(res => {
+        // console.log(res.data.sent);
+        !res.data.sent && dispatch(SHOWINVITEPOPUP());
+      })
+      .catch(err => { console.warn(err.response.data.message); })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   useEffect(() => {
     if(io.getIO()) {
@@ -141,7 +157,12 @@ function App() {
         <CSSTransition in={aNotification} timeout={300} mountOnEnter unmountOnExit>
           <NotifComponent/>
         </CSSTransition>
-        
+        { showInviteSendPopup ? 
+        <CSSTransition in={showInviteSendPopup} timeout={300} mountOnEnter unmountOnExit>
+          <SendInviteControl/>
+        </CSSTransition>
+         
+        : null}
       </div>
     </Suspense>
   );

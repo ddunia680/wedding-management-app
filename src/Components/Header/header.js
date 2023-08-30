@@ -78,7 +78,7 @@ function Header(props) {
                 : null}
                 <p className='font-semibold px-[1rem] text-specialPink cursor-pointer duration-75 hover:duration-75 hover:text-darkLighterBlue 
                 dark:hover:text-whitish hover:underline'>{t('programB')}</p>
-                { token ? <p className='font-semibold px-[1rem] text-specialPink cursor-pointer duration-75 hover:duration-75 hover:text-darkLighterBlue 
+                { token ? <p className='font-semibold px-[1rem] text-center text-specialPink cursor-pointer duration-75 hover:duration-75 hover:text-darkLighterBlue 
                 dark:hover:text-whitish hover:underline' onClick={() => {token && navigate('/scanQRCode')}}>{t('scanQRB')}</p> : null}
                 <button className={adminButtonClasses} onClick={() => { token ? navigate('/adminLog/manage') : navigate('/adminLog')}}>
                     {t('adminB')}
@@ -134,7 +134,7 @@ function Header(props) {
                         {t('programB')} <NewspaperIcon className='w-[1rem]'/>
                     </p>
                     { token ? <p className=' px-[1rem] py-[0.3rem] text-[13px] text-whitish dark:text-gray-500 flex justify-start' 
-                    onClick={() => token && navigate('/scanQRCode')}>
+                    onClick={() => token && navigate('/scanQRCode') && setShowDropM(false)}>
                         {t('scanQRB')} <NewspaperIcon className='w-[1rem]'/>
                     </p> : null}
                     <p className='bg-white dark:bg-darkLighterBlue dark:text-white rounded-lg text-[13px] px-[1rem] py-[0.3rem] flex justify-start'

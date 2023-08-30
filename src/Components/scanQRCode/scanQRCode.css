@@ -1,0 +1,25 @@
+.sendInButton {
+    animation: poppop 1s ease-in-out infinite;
+}
+
+.wrongMessage {
+    animation: wrong 1s ease-in-out infinite;
+}
+
+@keyframes poppop {
+    0%{
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes wrong {
+    0%{
+        display: block;
+    }
+    100% {
+        display: none;
+    }
+}

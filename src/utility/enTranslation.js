@@ -35,7 +35,14 @@ const transition = {
     inviteP4: "The organiser",
     QRMessage: 'Save this QR Code, for it will be used to let you in',
     QRErrorM: 'Wrong id entered',
-    QRCode_Message: 'Scan QR-Code here'
+    QRCode_Message: 'Scan QR-Code here',
+    inviteSendOrderMessage: 'Hey Mr. Admin, It is now A day to the ceremony, Please send the invitations to guests',
+    readyToGetInMessage: '😎 You can let them in, Everything is alright',
+    DuplicateEntryMessage: '😏 This Guest is already In!!!',
+    NotConfirmedPresence: '😡 Guest never confirmed presence, Fraud!!!',
+    guestNameLine: 'Guest {{name}}',
+    sentInButton: 'I Sent them In',
+    backtoScan: 'Back to Scanner',
 }
 
 export default transition;

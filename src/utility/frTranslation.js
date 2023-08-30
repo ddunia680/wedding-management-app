@@ -1,7 +1,7 @@
 const transition = {
     adminB: 'Admininstrateur', 
     programB: 'Programme',
-    scanQRB: 'Scanner Barre-Code',
+    scanQRB: 'Scanner QR-Code',
     homeB: 'Accueil',
     logoutB: 'Déconnecter',
     presentation1stLine: 'Vous etes le bienvenu au mariage de',
@@ -35,7 +35,14 @@ const transition = {
     inviteP4: "Le comité",
     QRMessage: 'Enregistrez cet Barre Code car il vous sera important pour participer à la cérémonie',
     QRErrorM: 'identité incorrecte',
-    QRCode_Message: 'Scanner votre Bar-Code Ici'
+    QRCode_Message: 'Scanner votre Bar-Code Ici',
+    inviteSendOrderMessage: "Bonjour, M. l'administrateur, c'est maintenant le jour de la cérémonie. Veuillez envoyer les invitations aux invités.",
+    readyToGetInMessage: "😎 Vous pouvez les laisser entrer, tout va bien",
+    DuplicateEntryMessage: "😏 Cet invité est déjà à l'interieur !!!",
+    NotConfirmedPresence: "😡 Invité n'a jamais confirmé sa présence, fraude !!!",
+    guestNameLine: 'Invité {{name}}',
+    sentInButton: "Je les ai envoyés",
+    backtoScan: "Rentrer au Scanner"
 }
 
 export default transition;
