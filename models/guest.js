@@ -21,6 +21,10 @@ const guestSchema = Schema({
         type: String,
         required: true,
         default: 'pending'
+    },
+    inside: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 

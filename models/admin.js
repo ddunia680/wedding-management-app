@@ -12,6 +12,10 @@ const adminSchema = Schema({
     password: {
         type: String,
         required: true
+    },
+    sentInvites: {
+        type: String,
+        default: 'false'
     }
 }, { timestamps: true });
 

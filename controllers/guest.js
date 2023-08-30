@@ -94,7 +94,7 @@ exports.getQRString = async (req, res) => {
             })
             
         } else {
-            const theString = `${guest._id}${guest.level}${guest.createdAt}${guest.phoneNo}`;
+            const theString = `${guest._id}-${Math.random().toFixed(2)}-${Math.random().toFixed(2)}`;
             console.log(guest);
             res.status(200).json({
                 string: theString

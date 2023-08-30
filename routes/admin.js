@@ -28,4 +28,12 @@ router.post('/adminConfirmGuestPresence', isAuth, adminControllers.confirmGuestP
 
 router.post('/excludeGuest', isAuth, adminControllers.excludeGuest);
 
+router.get('/checkQRStatus', isAuth, adminControllers.checkQRStatus);
+
+router.post('/sendQRMessages', isAuth, adminControllers.sendQRMessages);
+
+router.post('/scanQRCode', isAuth, adminControllers.scanQRCode);
+
+router.post('/allowGuestIn', isAuth, adminControllers.allowGuestIn);
+
 module.exports = router;

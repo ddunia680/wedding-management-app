@@ -14,3 +14,17 @@ exports.sendInvitationMessage = async (data) => {
         return err;
     }   
 }
+
+exports.sendQRMessage = async (data) => {
+    const client = new twilio(process.env.TWILIO_ACCOUNTSID, process.env.TWILIO_AUTH_TOKEN);
+    try {
+        const message = await client.messages
+        .create({body: `Hello there, You remember about Mr. Dunia's invitation for his kid's wedding? Well find below the link to 
+        download your invitiation. ${data.link}`, from: process.env.PHONE_NUMBER, to: data.receiver});
+            console.log(message);
+            return message;
+    } catch(err) {
+        console.log(err);
+        return err;
+    }
+}
